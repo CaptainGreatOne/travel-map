@@ -1,0 +1,131 @@
+# Project State
+
+## Project Reference
+
+See: .planning/PROJECT.md (updated 2026-01-15)
+
+**Core value:** Interactive companion app for a travel vlog YouTube channel
+**Current focus:** v1.1 Core Enhancements - Admin UX, country tracking, security, map performance
+
+## Current Position
+
+Phase: 8 of 13 (Country Field)
+Plan: 3 of 3 in current phase (COMPLETE)
+Status: Phase complete
+Last activity: 2026-01-26 — Completed 08-02-PLAN.md (final plan in phase)
+
+Progress: ███░░░░░░░░░░░░░░░░░░░░░ 15% (3/? plans in v1.1)
+
+## Performance Metrics
+
+**Velocity:**
+- Total plans completed: 23
+- Average duration: 4.6 min
+- Total execution time: 106 min
+
+**By Phase:**
+
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| 01-styling-infrastructure | 5/5 | 14 min | 3 min |
+| 02-component-decomposition | 5/5 | 12 min | 2.4 min |
+| 03-error-handling-validation | 4/4 | 11 min | 2.75 min |
+| 04-database-schema-redesign | 4/4 | ~37 min | ~9 min |
+| 05-admin-panel | 5/5 | 32 min | 6.4 min |
+
+**Recent Trend:**
+- Last 5 plans: 05-01 (1 min), 05-02 (1 min), 05-03 (2 min), 05-04 (3 min), 05-05 (25 min)
+- Note: 05-05 included significant bug fixes discovered during verification
+
+## Accumulated Context
+
+### Decisions
+
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- Refactor over rebuild (architecture is 85-90% aligned)
+- Supabase for auth (spam prevention) + database
+- Keep Leaflet for mapping
+- Use Tailwind CSS for styling (Phase 1 decision)
+- Tailwind v3 over v4 for stability (01-01)
+- primary-hover and status colors added to config (01-02)
+- Conditional className composition pattern (01-02)
+- SlideIn animation kept as inline style tag (01-03)
+- Tailwind arbitrary value syntax for calc() widths (01-04)
+- `isolate z-0` to contain Leaflet z-index (01-05)
+- `overflow-auto` for scrollable content areas (01-05)
+- AuthPrompt manages AuthModal internally for self-contained flow (02-02)
+- parseGoogleMapsUrl returns null on error for safe handling (02-02)
+- Custom hooks in src/hooks/ directory (02-01)
+- Keep hook and utility as separate files for clear imports (02-01)
+- Extract SidebarFilters as separate component for line count target (02-03)
+- Marker icon logic centralized in mapStyles utility (02-03)
+- Extract SuggestForm component for line count target (02-04)
+- Form receives user via props rather than useAuth directly (02-04)
+- Async parseGoogleMapsUrlAsync for short URL support via fetch redirect (02-05)
+- Modals use createPortal to render outside component DOM hierarchy (02-05)
+- Class components for error boundaries (React requirement) (03-01)
+- Nested error boundaries: MapErrorBoundary inside app ErrorBoundary (03-01)
+- 10-second timeout for auth session check (03-02)
+- 30-second default timeout for fetchWithTimeout utility (03-02)
+- AppContent component separates auth loading from routes (03-02)
+- Simple validation without Zod (no complex schemas needed) (03-03)
+- Safe email extraction with fallback to 'user' (03-03)
+- Use type='text' with custom validation over type='email' for consistent error UX (03-04)
+- Text primary key for categories (semantic IDs like 'nature', 'city') (04-01)
+- UUID for entity tables (locations, videos) with gen_random_uuid() (04-01)
+- Trigger-based constraint for max 3 videos per location (04-01)
+- Public read policies with no write policies (admin-only via service role) (04-01)
+- Database-enforced rate limits over application-level validation (04-02)
+- SECURITY DEFINER on trigger functions for cross-table writes (04-02)
+- Separate counting tables for suggestions and reminders (04-02)
+- Service functions return null on error for graceful fallback (04-03)
+- Service layer pattern: src/services/*.js for DB operations (04-03)
+- Fallback pattern: Initialize with sample data, replace with DB data (04-03)
+- ON CONFLICT DO NOTHING for idempotent seed data (04-04)
+- Rate limit whitelist for test accounts (04-04)
+- Email whitelist from env var for admin access control (05-01)
+- Admin service pattern: return { success, data, error } consistent with existing services (05-01)
+- Authenticated users can write via RLS (AdminGuard restricts UI access) (05-03)
+- Delete requires two clicks (confirm pattern) for admin operations (05-03)
+- Auto-generate slug from name on input for locations (05-03)
+- Local state update after moderation actions (no full refetch needed) (05-04)
+- YouTube thumbnail auto-generated from ID (05-04)
+- 5-second timeout for Edge Function calls (06-01)
+- Graceful fallback to isShortUrl hint when Edge Function unavailable (06-01)
+- Vitest for testing (Vite-native, fast, ESM-compatible) (06-02)
+- Preserve Unicode from decodeURIComponent (not normalize to ASCII) (06-02)
+- TDD for utility functions with clear input/output contracts (06-02)
+- Short URL fallback shows info (blue) not error (red) - link still valid (06-03)
+- LocationPreview component separate from SuggestForm for reusability (06-03)
+- TDD discovered: validateEmail should trim whitespace before regex validation (07-01)
+- jsdom environment for React hook testing (07-03)
+- renderHook from @testing-library/react for hook tests (07-03)
+- Nullable text column for country_code (08-01)
+- Static COUNTRY_CODE_MAP for name-to-ISO conversion (08-01)
+- Extract country from last comma-separated segment of place name (08-01)
+
+### Deferred Issues
+
+None yet.
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+None yet.
+
+### Roadmap Evolution
+
+- v1.0 MVP completed: Styling, components, error handling, database, admin panel, suggestions, testing (Phases 1-7, shipped 2026-01-23)
+- v1.1 Core Enhancements created: Admin UX, country tracking, video-location UX, security, map performance (Phases 8-13)
+
+## Session Continuity
+
+Last session: 2026-01-26
+Stopped at: Completed Phase 8 (Country Field)
+Resume file: None
+Next action: Plan Phase 9 (Admin Search & Sort)

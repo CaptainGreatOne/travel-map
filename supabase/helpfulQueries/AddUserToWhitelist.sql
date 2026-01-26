@@ -1,0 +1,25 @@
+ -- By email (find user ID first, then add)                                                                                                                                                             
+  INSERT INTO rate_limit_whitelist (user_id, reason)                                                                                                                                                     
+  SELECT id, 'test account'                                                                                                                                                                              
+  FROM auth.users                                                                                                                                                                                        
+  WHERE email = 'your-test@email.com';                                                                                                                                                                   
+                                                                                                                                                                                                         
+  -- Or if you know the user ID:                                                                                                                                                                            
+  INSERT INTO rate_limit_whitelist (user_id, reason)                                                                                                                                                     
+  VALUES ('user-uuid-here', 'test account');                                                                                                                                                             
+                                                                                                                                                                                                         
+  Remove a user from the whitelist                                                                                                                                                                       
+                                                                                                                                                                                                         
+  -- By email                                                                                                                                                                                            
+  DELETE FROM rate_limit_whitelist                                                                                                                                                                       
+  WHERE user_id = (SELECT id FROM auth.users WHERE email = 'your-test@email.com');                                                                                                                       
+                                                                                                                                                                                                         
+  Or by user ID:                                                                                                                                                                                         
+  DELETE FROM rate_limit_whitelist                                                                                                                                                                       
+  WHERE user_id = 'user-uuid-here';                                                                                                                                                                      
+                                                                                                                                                                                                         
+  View all whitelisted users                                                                                                                                                                             
+                                                                                                                                                                                                         
+  SELECT w.*, u.email                                                                                                                                                                                    
+  FROM rate_limit_whitelist w                                                                                                                                                                            
+  JOIN auth.users u ON w.user_id = u.id;    

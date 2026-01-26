@@ -1,0 +1,51 @@
+import React from 'react';
+import PhotoCarousel from '../components/PhotoCarousel';
+import { featuredPhotos } from '../data/sampleData';
+
+function PhotographyPage() {
+  return (
+    <div className="flex-1 overflow-y-auto bg-background">
+      {/* Page Header */}
+      <div className="py-8 md:py-12 px-4 md:px-16 pb-6 md:pb-8 bg-gradient-to-br from-secondary to-secondary/80 text-white">
+        <h1 className="m-0 mb-2 text-2xl md:text-4xl font-bold">
+          Photography
+        </h1>
+        <p className="m-0 text-base md:text-lg opacity-90 font-light">
+          Capturing moments from around the world
+        </p>
+      </div>
+
+      {/* Content Container */}
+      <div className="max-w-[1400px] mx-auto py-6 md:py-12 px-4 md:px-16">
+
+        {/* Featured Carousel */}
+        <div className="mb-8 md:mb-16">
+          <h2 className="m-0 mb-4 md:mb-6 text-2xl md:text-3xl text-secondary font-semibold">
+            Featured Photos
+          </h2>
+          <PhotoCarousel photos={featuredPhotos} />
+        </div>
+
+        {/* Instagram Section */}
+        <div className="text-center py-8 md:py-12 px-4 md:px-8 bg-white rounded-xl shadow-md">
+          <h2 className="m-0 mb-3 md:mb-4 text-2xl md:text-3xl text-secondary font-semibold">
+            Follow My Journey
+          </h2>
+          <p className="m-0 mb-6 md:mb-8 text-base md:text-lg text-gray-600">
+            See more photos and daily updates on Instagram
+          </p>
+          <a
+            href="https://instagram.com/capt_gr8_1"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-pink-600 text-white no-underline rounded-lg text-base md:text-lg font-semibold shadow-lg shadow-pink-600/30 hover:shadow-xl hover:shadow-pink-600/40 hover:-translate-y-0.5 transition-all duration-200"
+          >
+            📸 @yourhandle
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default PhotographyPage;
