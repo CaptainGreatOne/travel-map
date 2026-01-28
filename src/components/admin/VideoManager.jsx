@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchVideos, createVideo, deleteVideo, linkVideoToLocation } from '../../services/adminService';
 import { fetchLocations } from '../../services/locationService';
+import SearchableLocationSelect from './SearchableLocationSelect';
 
 /**
  * VideoManager - Component for managing videos and linking them to locations
@@ -351,19 +352,17 @@ function VideoManager() {
             </p>
 
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Select Location
               </label>
-              <select
-                value={selectedLocation}
-                onChange={(e) => setSelectedLocation(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary"
-              >
-                <option value="">Choose a location...</option>
-                {locations.map(loc => (
-                  <option key={loc.id} value={loc.id}>{loc.name}</option>
-                ))}
-              </select>
+              <SearchableLocationSelect
+                locations={locations}
+                selectedIds={selectedLocation ? [selectedLocation] : []}
+                onSelect={(loc) => setSelectedLocation(loc.id)}
+                excludeIds={(linkingVideo.location_videos || []).map(lv => lv.location_id)}
+                placeholder="Search locations..."
+                multiSelect={false}
+              />
             </div>
 
             <div className="flex gap-3 justify-end">
