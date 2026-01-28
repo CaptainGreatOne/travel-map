@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-01-15)
 ## Current Position
 
 Phase: 10 of 13 (Video-Location UX)
-Plan: 0 of 2 in current phase (PLANNED)
-Status: Ready for execution
-Last activity: 2026-01-28 — Created phase plans (10-01, 10-02)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-28 — Completed 10-01-PLAN.md
 
-Progress: ████░░░░░░░░░░░░░░░░░░░░ 18% (4/? plans in v1.1)
+Progress: █████░░░░░░░░░░░░░░░░░░░ 21% (5/? plans in v1.1)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 23
-- Average duration: 4.6 min
-- Total execution time: 106 min
+- Total plans completed: 24
+- Average duration: 4.5 min
+- Total execution time: 107 min
 
 **By Phase:**
 
@@ -107,6 +107,8 @@ Recent decisions affecting current work:
 - Extract country from last comma-separated segment of place name (08-01)
 - useMemo for sorted list to avoid re-sorting on every render (09-01)
 - Combined filter state pattern for search/category/country (09-01)
+- Single-select for video linking, multiSelect=false (10-01)
+- SearchableLocationSelect pattern for reusable searchable dropdowns (10-01)
 
 ### Deferred Issues
 
@@ -128,6 +130,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-28
-Stopped at: Planned Phase 10 (Video-Location UX)
+Stopped at: Completed 10-01-PLAN.md
 Resume file: None
-Next action: Execute Phase 10 (2 plans in 2 waves)
+Next action: Execute 10-02-PLAN.md (wave 2)

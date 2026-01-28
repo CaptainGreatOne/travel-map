@@ -181,10 +181,11 @@ Plans:
 **Goal**: Searchable dropdown for video-location linking, multi-select, visited-only filter, display video links on map popups
 **Depends on**: Phase 9
 **Research**: Unlikely (React select patterns, existing component structure)
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 10-01: TBD
+- [x] 10-01: SearchableLocationSelect component (Wave 1)
+- [ ] 10-02: Batch operations and map popup videos (Wave 2)
 
 #### Phase 11: Security Hardening
 **Goal**: XSS protection, SQL injection prevention, URL validation for Google Maps inputs
@@ -233,7 +234,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 7. Testing & Polish | v1.0 | 4/4 | Complete | 2026-01-23 |
 | 8. Country Field | v1.1 | 3/3 | Complete | 2026-01-26 |
 | 9. Admin Search & Sort | v1.1 | 1/1 | Complete | 2026-01-28 |
-| 10. Video-Location UX | v1.1 | 0/? | Not started | - |
+| 10. Video-Location UX | v1.1 | 1/2 | In progress | - |
 | 11. Security Hardening | v1.1 | 0/? | Not started | - |
 | 12. Map Performance | v1.1 | 0/? | Not started | - |
 | 13. User Map Search | v1.1 | 0/? | Not started | - |
