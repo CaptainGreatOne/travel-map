@@ -110,6 +110,14 @@ function LocationManager() {
 
       if (sortField === 'name') {
         comparison = (a.name || '').localeCompare(b.name || '');
+      } else if (sortField === 'category') {
+        const catA = a.category?.name || '';
+        const catB = b.category?.name || '';
+        comparison = catA.localeCompare(catB);
+      } else if (sortField === 'country') {
+        const countryA = a.country || a.country_code || '';
+        const countryB = b.country || b.country_code || '';
+        comparison = countryA.localeCompare(countryB);
       } else if (sortField === 'date_visited') {
         // Nulls last
         if (!a.date_visited && !b.date_visited) comparison = 0;
@@ -414,8 +422,18 @@ function LocationManager() {
                 >
                   Name {sortField === 'name' && (sortDirection === 'asc' ? '▲' : '▼')}
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Category</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Country</th>
+                <th
+                  className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:text-gray-700 select-none"
+                  onClick={() => handleSort('category')}
+                >
+                  Category {sortField === 'category' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </th>
+                <th
+                  className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:text-gray-700 select-none"
+                  onClick={() => handleSort('country')}
+                >
+                  Country {sortField === 'country' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </th>
                 <th
                   className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:text-gray-700 select-none"
                   onClick={() => handleSort('date_visited')}
