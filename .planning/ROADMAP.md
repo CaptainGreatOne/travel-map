@@ -172,10 +172,10 @@ Plans:
 **Goal**: Add sortable columns (name, date), searchbar, and category/country filtering to admin location list
 **Depends on**: Phase 8
 **Research**: Unlikely (React table patterns, existing Tailwind styling)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 09-01: TBD
+- [x] 09-01: Search, category filter, and sortable columns
 
 #### Phase 10: Video-Location UX
 **Goal**: Searchable dropdown for video-location linking, multi-select, visited-only filter, display video links on map popups
@@ -232,7 +232,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 6. Location Suggestions | v1.0 | 3/3 | Complete | 2026-01-23 |
 | 7. Testing & Polish | v1.0 | 4/4 | Complete | 2026-01-23 |
 | 8. Country Field | v1.1 | 3/3 | Complete | 2026-01-26 |
-| 9. Admin Search & Sort | v1.1 | 0/? | Not started | - |
+| 9. Admin Search & Sort | v1.1 | 1/1 | Complete | 2026-01-28 |
 | 10. Video-Location UX | v1.1 | 0/? | Not started | - |
 | 11. Security Hardening | v1.1 | 0/? | Not started | - |
 | 12. Map Performance | v1.1 | 0/? | Not started | - |

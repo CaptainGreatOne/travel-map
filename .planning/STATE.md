@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-15)
 
 ## Current Position
 
-Phase: 8 of 13 (Country Field)
-Plan: 3 of 3 in current phase (COMPLETE)
+Phase: 9 of 13 (Admin Search & Sort)
+Plan: 1 of 1 in current phase (COMPLETE)
 Status: Phase complete
-Last activity: 2026-01-26 — Completed 08-02-PLAN.md (final plan in phase)
+Last activity: 2026-01-28 — Completed 09-01-PLAN.md (final plan in phase)
 
-Progress: ███░░░░░░░░░░░░░░░░░░░░░ 15% (3/? plans in v1.1)
+Progress: ████░░░░░░░░░░░░░░░░░░░░ 18% (4/? plans in v1.1)
 
 ## Performance Metrics
 
@@ -105,6 +105,8 @@ Recent decisions affecting current work:
 - Nullable text column for country_code (08-01)
 - Static COUNTRY_CODE_MAP for name-to-ISO conversion (08-01)
 - Extract country from last comma-separated segment of place name (08-01)
+- useMemo for sorted list to avoid re-sorting on every render (09-01)
+- Combined filter state pattern for search/category/country (09-01)
 
 ### Deferred Issues
 
@@ -112,7 +114,7 @@ None yet.
 
 ### Pending Todos
 
-None yet.
+- **Normalize country data** (low priority): Extract `country`/`country_code` from locations and suggestions into a separate `countries` table with FK relationships. Not urgent given small dataset (~600 records), but would enable country metadata (flags, continents) and single-source-of-truth naming. Consider for a future "database cleanup" phase if needed.
 
 ### Blockers/Concerns
 
@@ -125,7 +127,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-26
-Stopped at: Completed Phase 8 (Country Field)
+Last session: 2026-01-28
+Stopped at: Completed Phase 9 (Admin Search & Sort)
 Resume file: None
-Next action: Plan Phase 9 (Admin Search & Sort)
+Next action: Plan Phase 10 (Video-Location UX)
