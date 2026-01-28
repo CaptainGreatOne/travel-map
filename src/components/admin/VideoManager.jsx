@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchVideos, createVideo, deleteVideo, linkVideoToLocation } from '../../services/adminService';
+import { fetchVideos, createVideo, deleteVideo, linkVideoToLocation, unlinkVideoFromLocation } from '../../services/adminService';
 import { fetchLocations } from '../../services/locationService';
 import SearchableLocationSelect from './SearchableLocationSelect';
 
@@ -14,8 +14,9 @@ function VideoManager() {
   const [error, setError] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [linkingVideo, setLinkingVideo] = useState(null); // Video being linked
-  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState(null); // Full location object, not just ID
   const [confirmDelete, setConfirmDelete] = useState(null); // Video ID to confirm delete
+  const [unlinkingLocation, setUnlinkingLocation] = useState(null); // { videoId, locationId } to confirm unlink
   const [actionLoading, setActionLoading] = useState(false);
 
   // Form state
@@ -181,31 +182,57 @@ function VideoManager() {
     if (!linkingVideo || !selectedLocation) return;
 
     setActionLoading(true);
-    const result = await linkVideoToLocation(selectedLocation, linkingVideo.id);
+    const result = await linkVideoToLocation(selectedLocation.id, linkingVideo.id);
     if (result.success) {
       // Update local state to reflect the link
       setVideos(prev =>
         prev.map(v =>
           v.id === linkingVideo.id
-            ? { ...v, location_videos: [...(v.location_videos || []), { location_id: selectedLocation }] }
+            ? { ...v, location_videos: [...(v.location_videos || []), { location_id: selectedLocation.id }] }
             : v
         )
       );
       setLinkingVideo(null);
-      setSelectedLocation('');
+      setSelectedLocation(null);
     } else {
       alert(`Failed to link: ${result.error}`);
     }
     setActionLoading(false);
   }
 
-  // Get location names for linked locations
-  function getLinkedLocationNames(video) {
+  async function handleUnlinkLocation(videoId, locationId) {
+    // Two-click confirmation pattern
+    const key = `${videoId}-${locationId}`;
+    if (!unlinkingLocation || unlinkingLocation !== key) {
+      setUnlinkingLocation(key);
+      return;
+    }
+
+    setActionLoading(true);
+    const result = await unlinkVideoFromLocation(locationId, videoId);
+    if (result.success) {
+      // Update local state to remove the link
+      setVideos(prev =>
+        prev.map(v =>
+          v.id === videoId
+            ? { ...v, location_videos: (v.location_videos || []).filter(lv => lv.location_id !== locationId) }
+            : v
+        )
+      );
+    } else {
+      alert(`Failed to unlink: ${result.error}`);
+    }
+    setUnlinkingLocation(null);
+    setActionLoading(false);
+  }
+
+  // Get linked locations with both name and ID
+  function getLinkedLocations(video) {
     if (!video.location_videos || video.location_videos.length === 0) return [];
     return video.location_videos
       .map(lv => {
         const loc = locations.find(l => l.id === lv.location_id);
-        return loc ? loc.name : 'Unknown';
+        return loc ? { id: loc.id, name: loc.name } : null;
       })
       .filter(Boolean);
   }
@@ -351,26 +378,35 @@ function VideoManager() {
               Linking: <span className="font-medium">{linkingVideo.title}</span>
             </p>
 
-            <div className="mb-6">
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Select Location
               </label>
               <SearchableLocationSelect
                 locations={locations}
-                selectedIds={selectedLocation ? [selectedLocation] : []}
-                onSelect={(loc) => setSelectedLocation(loc.id)}
+                selectedIds={selectedLocation ? [selectedLocation.id] : []}
+                onSelect={(loc) => setSelectedLocation(loc)}
                 excludeIds={(linkingVideo.location_videos || []).map(lv => lv.location_id)}
                 placeholder="Search locations..."
                 multiSelect={false}
               />
             </div>
 
+            {/* Show selected location */}
+            {selectedLocation && (
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                <p className="text-sm text-green-800">
+                  <span className="font-medium">Selected:</span> {selectedLocation.name}
+                </p>
+              </div>
+            )}
+
             <div className="flex gap-3 justify-end">
               <button
                 type="button"
                 onClick={() => {
                   setLinkingVideo(null);
-                  setSelectedLocation('');
+                  setSelectedLocation(null);
                 }}
                 className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
                 disabled={actionLoading}
@@ -398,30 +434,66 @@ function VideoManager() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {videos.map(video => (
             <div key={video.id} className="bg-white rounded-lg shadow border border-gray-100 overflow-hidden">
-              <img
-                src={`https://img.youtube.com/vi/${video.youtube_id}/mqdefault.jpg`}
-                alt={video.title}
-                className="w-full h-32 object-cover"
-              />
+              {/* Clickable thumbnail that opens YouTube */}
+              <a
+                href={`https://www.youtube.com/watch?v=${video.youtube_id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block relative group"
+              >
+                <img
+                  src={`https://img.youtube.com/vi/${video.youtube_id}/mqdefault.jpg`}
+                  alt={video.title}
+                  className="w-full h-32 object-cover"
+                />
+                {/* Play icon overlay */}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg className="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+              </a>
               <div className="p-4">
-                <h3 className="font-semibold text-gray-800 truncate" title={video.title}>
+                <a
+                  href={`https://www.youtube.com/watch?v=${video.youtube_id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-gray-800 hover:text-primary truncate block"
+                  title={video.title}
+                >
                   {video.title}
-                </h3>
+                </a>
                 <p className="text-gray-500 text-sm">ID: {video.youtube_id}</p>
 
                 {/* Linked Locations */}
-                {getLinkedLocationNames(video).length > 0 && (
+                {getLinkedLocations(video).length > 0 && (
                   <div className="mt-2">
                     <p className="text-xs text-gray-500">Linked to:</p>
                     <div className="flex flex-wrap gap-1 mt-1">
-                      {getLinkedLocationNames(video).map((name, idx) => (
-                        <span
-                          key={idx}
-                          className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded"
-                        >
-                          {name}
-                        </span>
-                      ))}
+                      {getLinkedLocations(video).map((loc) => {
+                        const unlinkKey = `${video.id}-${loc.id}`;
+                        const isConfirming = unlinkingLocation === unlinkKey;
+                        return (
+                          <span
+                            key={loc.id}
+                            className={`inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded ${
+                              isConfirming
+                                ? 'bg-red-100 text-red-700'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}
+                          >
+                            {loc.name}
+                            <button
+                              onClick={() => handleUnlinkLocation(video.id, loc.id)}
+                              disabled={actionLoading}
+                              className={`ml-0.5 hover:text-red-600 ${isConfirming ? 'text-red-600 font-bold' : ''}`}
+                              title={isConfirming ? 'Click again to confirm' : 'Remove link'}
+                            >
+                              {isConfirming ? '?' : '×'}
+                            </button>
+                          </span>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
