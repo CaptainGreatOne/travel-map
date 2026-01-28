@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { fetchLocations, fetchCategories } from '../../services/locationService';
 import { createLocation, updateLocation, deleteLocation } from '../../services/adminService';
 import { parseGoogleMapsCoordinates, parseGoogleMapsUrl, parseGoogleMapsUrlAsync } from '../../utils/parseGoogleMapsUrl';
@@ -21,6 +21,8 @@ function LocationManager() {
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [countryFilter, setCountryFilter] = useState('');
+  const [sortField, setSortField] = useState('name');
+  const [sortDirection, setSortDirection] = useState('asc');
 
   // Get empty form data template
   function getEmptyFormData() {
@@ -100,6 +102,35 @@ function LocationManager() {
     const matchesCountry = !countryFilter || loc.country_code === countryFilter;
     return matchesSearch && matchesCategory && matchesCountry;
   });
+
+  // Sort filtered locations
+  const sortedLocations = useMemo(() => {
+    return [...filteredLocations].sort((a, b) => {
+      let comparison = 0;
+
+      if (sortField === 'name') {
+        comparison = (a.name || '').localeCompare(b.name || '');
+      } else if (sortField === 'date_visited') {
+        // Nulls last
+        if (!a.date_visited && !b.date_visited) comparison = 0;
+        else if (!a.date_visited) comparison = 1;
+        else if (!b.date_visited) comparison = -1;
+        else comparison = a.date_visited.localeCompare(b.date_visited);
+      }
+
+      return sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }, [filteredLocations, sortField, sortDirection]);
+
+  // Handle sort column click
+  function handleSort(field) {
+    if (sortField === field) {
+      setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  }
 
   // Handle form field changes
   function handleChange(e) {
@@ -377,15 +408,25 @@ function LocationManager() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
+                <th
+                  className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:text-gray-700 select-none"
+                  onClick={() => handleSort('name')}
+                >
+                  Name {sortField === 'name' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Category</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Country</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Visited</th>
+                <th
+                  className="px-4 py-3 text-left text-sm font-medium text-gray-500 cursor-pointer hover:text-gray-700 select-none"
+                  onClick={() => handleSort('date_visited')}
+                >
+                  Visited {sortField === 'date_visited' && (sortDirection === 'asc' ? '▲' : '▼')}
+                </th>
                 <th className="px-4 py-3 text-right text-sm font-medium text-gray-500">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              {filteredLocations.map(location => (
+              {sortedLocations.map(location => (
                 <tr key={location.id} className="hover:bg-gray-50">
                   <td className="px-4 py-3">
                     <div className="font-medium text-gray-800">{location.name}</div>
