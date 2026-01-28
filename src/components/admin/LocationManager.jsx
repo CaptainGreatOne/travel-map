@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchLocations, fetchCategories } from '../../services/locationService';
 import { createLocation, updateLocation, deleteLocation } from '../../services/adminService';
-import { parseGoogleMapsCoordinates, parseGoogleMapsUrl, parseGoogleMapsCountry } from '../../utils/parseGoogleMapsUrl';
+import { parseGoogleMapsCoordinates, parseGoogleMapsUrl, parseGoogleMapsUrlAsync } from '../../utils/parseGoogleMapsUrl';
 
 /**
  * LocationManager - Admin component for managing locations
@@ -18,6 +18,7 @@ function LocationManager() {
   const [submitting, setSubmitting] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [countryFilter, setCountryFilter] = useState('');
 
   // Get empty form data template
@@ -29,6 +30,7 @@ function LocationManager() {
       latitude: '',
       longitude: '',
       category_id: '',
+      country: '',
       country_code: '',
       has_visited: false,
       date_visited: '',
@@ -79,16 +81,23 @@ function LocationManager() {
   }
 
   // Compute unique countries from locations for dropdown
-  const uniqueCountries = [...new Set(
-    locations
-      .map(loc => loc.country_code)
-      .filter(code => code != null)
-  )].sort();
+  // Creates array of { code, name } objects, preferring name for display but using code for filtering
+  const uniqueCountries = locations
+    .filter(loc => loc.country_code != null)
+    .reduce((acc, loc) => {
+      if (!acc.find(c => c.code === loc.country_code)) {
+        acc.push({ code: loc.country_code, name: loc.country || loc.country_code });
+      }
+      return acc;
+    }, [])
+    .sort((a, b) => a.name.localeCompare(b.name));
 
-  // Filter locations by selected country
-  const filteredLocations = countryFilter
-    ? locations.filter(loc => loc.country_code === countryFilter)
-    : locations;
+  // Filter locations by search query and country code
+  const filteredLocations = locations.filter(loc => {
+    const matchesSearch = !searchQuery || loc.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCountry = !countryFilter || loc.country_code === countryFilter;
+    return matchesSearch && matchesCountry;
+  });
 
   // Handle form field changes
   function handleChange(e) {
@@ -108,7 +117,7 @@ function LocationManager() {
         updated.date_visited = '';
       }
 
-      // Parse Google Maps URL for coordinates, name, and country
+      // Parse Google Maps URL for coordinates and name (sync, immediate feedback)
       if (name === 'google_maps_url' && value) {
         const coords = parseGoogleMapsCoordinates(value);
         if (coords) {
@@ -121,17 +130,23 @@ function LocationManager() {
           updated.name = extractedName;
           updated.slug = generateSlug(extractedName);
         }
-        // Extract country from the place name
-        if (extractedName) {
-          const countryInfo = parseGoogleMapsCountry(extractedName);
-          if (countryInfo?.countryCode) {
-            updated.country_code = countryInfo.countryCode;
-          }
-        }
       }
 
       return updated;
     });
+
+    // Async: Fetch country info via reverse geocoding when Google Maps URL is pasted
+    if (name === 'google_maps_url' && value) {
+      parseGoogleMapsUrlAsync(value).then(result => {
+        if (result.country || result.countryCode) {
+          setFormData(prev => ({
+            ...prev,
+            country: result.country || prev.country,
+            country_code: result.countryCode || prev.country_code
+          }));
+        }
+      });
+    }
   }
 
   // Open form for adding new location
@@ -151,6 +166,7 @@ function LocationManager() {
       latitude: location.latitude?.toString() || '',
       longitude: location.longitude?.toString() || '',
       category_id: location.category_id || '',
+      country: location.country || '',
       country_code: location.country_code || '',
       has_visited: location.has_visited || false,
       date_visited: location.date_visited || '',
@@ -198,6 +214,7 @@ function LocationManager() {
       latitude: parseFloat(formData.latitude),
       longitude: parseFloat(formData.longitude),
       category_id: formData.category_id,
+      country: formData.country || null,
       country_code: formData.country_code || null,
       has_visited: formData.has_visited,
       date_visited: formData.has_visited && formData.date_visited ? formData.date_visited : null,
@@ -301,26 +318,38 @@ function LocationManager() {
         </div>
       )}
 
-      {/* Country Filter */}
-      {uniqueCountries.length > 0 && (
-        <div className="mb-4">
+      {/* Search and Filters */}
+      <div className="mb-4 flex flex-wrap gap-3 items-center">
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder="Search locations..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+        />
+
+        {/* Country Filter */}
+        {uniqueCountries.length > 0 && (
           <select
             value={countryFilter}
             onChange={(e) => setCountryFilter(e.target.value)}
             className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
           >
             <option value="">All Countries</option>
-            {uniqueCountries.map(code => (
-              <option key={code} value={code}>{code}</option>
+            {uniqueCountries.map(c => (
+              <option key={c.code} value={c.code}>{c.name}</option>
             ))}
           </select>
-          {countryFilter && (
-            <span className="ml-3 text-sm text-gray-500">
-              Showing {filteredLocations.length} of {locations.length} locations
-            </span>
-          )}
-        </div>
-      )}
+        )}
+
+        {/* Filter count */}
+        {(searchQuery || countryFilter) && (
+          <span className="text-sm text-gray-500">
+            Showing {filteredLocations.length} of {locations.length} locations
+          </span>
+        )}
+      </div>
 
       {/* Locations Table */}
       {locations.length === 0 ? (
@@ -357,8 +386,13 @@ function LocationManager() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    {location.country_code ? (
-                      <span className="text-sm text-gray-700">{location.country_code}</span>
+                    {(location.country || location.country_code) ? (
+                      <span className="text-sm text-gray-700">
+                        {location.country || location.country_code}
+                        {location.country && location.country_code && (
+                          <span className="text-gray-400 text-xs ml-1">({location.country_code})</span>
+                        )}
+                      </span>
                     ) : (
                       <span className="text-gray-400">-</span>
                     )}
@@ -527,23 +561,39 @@ function LocationManager() {
                 <p className="mt-1 text-xs text-gray-500">Required for location to appear on map</p>
               </div>
 
-              {/* Country Code */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Country Code
-                </label>
-                <input
-                  type="text"
-                  name="country_code"
-                  value={formData.country_code}
-                  readOnly
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
-                  placeholder="Auto-filled from Google Maps URL"
-                />
-                <p className="mt-1 text-xs text-gray-500">
-                  Auto-filled when you paste a Google Maps URL
-                </p>
+              {/* Country */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                    placeholder="e.g., France"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Country Code
+                  </label>
+                  <input
+                    type="text"
+                    name="country_code"
+                    value={formData.country_code}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                    placeholder="e.g., FR"
+                    maxLength={2}
+                  />
+                </div>
               </div>
+              <p className="mt-1 text-xs text-gray-500">
+                Auto-filled when you paste a Google Maps URL, or enter manually
+              </p>
 
               {/* Visited */}
               <div className="flex items-center gap-4">
