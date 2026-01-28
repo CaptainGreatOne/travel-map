@@ -19,6 +19,7 @@ function LocationManager() {
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('');
   const [countryFilter, setCountryFilter] = useState('');
 
   // Get empty form data template
@@ -92,11 +93,12 @@ function LocationManager() {
     }, [])
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  // Filter locations by search query and country code
+  // Filter locations by search query, category, and country code
   const filteredLocations = locations.filter(loc => {
     const matchesSearch = !searchQuery || loc.name.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = !categoryFilter || loc.category_id === categoryFilter;
     const matchesCountry = !countryFilter || loc.country_code === countryFilter;
-    return matchesSearch && matchesCountry;
+    return matchesSearch && matchesCategory && matchesCountry;
   });
 
   // Handle form field changes
@@ -329,6 +331,20 @@ function LocationManager() {
           className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
         />
 
+        {/* Category Filter */}
+        {categories.length > 0 && (
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-sm"
+          >
+            <option value="">All Categories</option>
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.icon} {cat.name}</option>
+            ))}
+          </select>
+        )}
+
         {/* Country Filter */}
         {uniqueCountries.length > 0 && (
           <select
@@ -344,7 +360,7 @@ function LocationManager() {
         )}
 
         {/* Filter count */}
-        {(searchQuery || countryFilter) && (
+        {(searchQuery || categoryFilter || countryFilter) && (
           <span className="text-sm text-gray-500">
             Showing {filteredLocations.length} of {locations.length} locations
           </span>
