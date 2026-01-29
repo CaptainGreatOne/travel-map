@@ -17,6 +17,10 @@ export function useMapFilters(locations, categoryData) {
   const [mapStyle, setMapStyle] = useState('standard');
   const [colorScheme, setColorScheme] = useState('status'); // 'status' or 'category'
 
+  // Search and country filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [countryFilter, setCountryFilter] = useState('');
+
   // Auto-select new categories when category data changes (e.g., after DB load)
   // Using a ref to track previously seen category IDs avoids setState in the effect body
   const prevCategoryIdsRef = React.useRef(new Set(categoryData.map(c => c.id)));
@@ -45,6 +49,19 @@ export function useMapFilters(locations, categoryData) {
     return locations.filter(hasValidCoordinates);
   }, [locations]);
 
+  // Compute unique countries from validLocations (follow admin pattern)
+  const uniqueCountries = useMemo(() => {
+    return validLocations
+      .filter(loc => loc.country_code != null)
+      .reduce((acc, loc) => {
+        if (!acc.find(c => c.code === loc.country_code)) {
+          acc.push({ code: loc.country_code, name: loc.country || loc.country_code });
+        }
+        return acc;
+      }, [])
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }, [validLocations]);
+
   // Calculate category counts (only valid locations)
   const categoriesWithCounts = useMemo(() => {
     return categoryData.map(category => ({
@@ -56,19 +73,30 @@ export function useMapFilters(locations, categoryData) {
   // Filter locations based on ACTIVE color scheme's filters (uses validLocations)
   const filteredLocations = useMemo(() => {
     return validLocations.filter(loc => {
+      // Search filter: case-insensitive search by location name
+      const matchesSearch = !searchQuery ||
+        loc.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+      // Country filter: check if location country_code matches countryFilter
+      const matchesCountry = !countryFilter || loc.country_code === countryFilter;
+
+      // Status/category filter based on active color scheme
+      let matchesScheme;
       if (colorScheme === 'status') {
         // When in status mode, filter by status only
         const isVisited = loc.has_visited;
-        const matchesStatus =
+        matchesScheme =
           (isVisited && selectedStatuses.includes('visited')) ||
           (!isVisited && selectedStatuses.includes('want-to-visit'));
-        return matchesStatus;
       } else {
         // When in category mode, filter by category only
-        return selectedCategories.includes(loc.category?.id || loc.category);
+        matchesScheme = selectedCategories.includes(loc.category?.id || loc.category);
       }
+
+      // Combine all filters with AND logic
+      return matchesSearch && matchesCountry && matchesScheme;
     });
-  }, [validLocations, colorScheme, selectedStatuses, selectedCategories]);
+  }, [validLocations, colorScheme, selectedStatuses, selectedCategories, searchQuery, countryFilter]);
 
   // Toggle status selection
   const handleToggleStatus = (status) => {
@@ -112,17 +140,22 @@ export function useMapFilters(locations, categoryData) {
     mapStyle,
     colorScheme,
     filtersOpen,
+    searchQuery,
+    countryFilter,
     // Computed values
     categoriesWithCounts,
     filteredLocations,
     visitedCount,
     wantToVisitCount,
+    uniqueCountries,
     // Handlers
     handleToggleStatus,
     handleToggleCategory,
     setMapStyle,
     setColorScheme,
     setFiltersOpen,
+    setSearchQuery,
+    setCountryFilter,
     getCategoryInfo
   };
 }
