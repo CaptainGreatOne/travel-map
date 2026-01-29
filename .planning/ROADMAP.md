@@ -195,7 +195,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 11-01: Security utilities (URL validation, content sanitization) (Wave 1)
+- [x] 11-01: Security utilities (URL validation, content sanitization) (Wave 1)
 - [ ] 11-02: Form integration and SQL audit (Wave 2)
 
 #### Phase 12: Map Performance
@@ -236,7 +236,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 8. Country Field | v1.1 | 3/3 | Complete | 2026-01-26 |
 | 9. Admin Search & Sort | v1.1 | 1/1 | Complete | 2026-01-28 |
 | 10. Video-Location UX | v1.1 | 2/2 | Complete | 2026-01-29 |
-| 11. Security Hardening | v1.1 | 0/? | Not started | - |
+| 11. Security Hardening | v1.1 | 1/2 | In progress | - |
 | 12. Map Performance | v1.1 | 0/? | Not started | - |
 | 13. User Map Search | v1.1 | 0/? | Not started | - |
 
