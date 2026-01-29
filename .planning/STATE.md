@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-15)
 ## Current Position
 
 Phase: 11 of 13 (Security Hardening)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-29 — Completed 11-01-PLAN.md
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-01-29 — Completed 11-02-PLAN.md
 
-Progress: ███████░░░░░░░░░░░░░░░░░ 28% (7/? plans in v1.1)
+Progress: ████████░░░░░░░░░░░░░░░░ 32% (8/? plans in v1.1)
 
 ## Performance Metrics
 
@@ -111,6 +111,8 @@ Recent decisions affecting current work:
 - SearchableLocationSelect pattern for reusable searchable dropdowns (10-01)
 - Single user-friendly error message for all URL validation failures (11-01)
 - Defense-in-depth sanitization: complements React/Supabase protections (11-01)
+- URL validation at form input change for immediate feedback (11-02)
+- Service-layer sanitization is silent (no user feedback) (11-02)
 
 ### Deferred Issues
 
@@ -132,6 +134,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 11-01-PLAN.md
+Stopped at: Completed 11-02-PLAN.md
 Resume file: None
-Next action: Execute 11-02-PLAN.md (Form integration)
+Next action: Plan phase 12 (Map Performance)
