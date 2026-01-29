@@ -59,7 +59,8 @@ function MapPage() {
     selectedStatuses, selectedCategories, mapStyle, colorScheme, filtersOpen,
     categoriesWithCounts, filteredLocations, visitedCount, wantToVisitCount,
     handleToggleStatus, handleToggleCategory, setMapStyle, setColorScheme, setFiltersOpen,
-    getCategoryInfo
+    getCategoryInfo,
+    searchQuery, setSearchQuery, countryFilter, setCountryFilter, uniqueCountries
   } = useMapFilters(locations, categories);
 
   const [showingSuggestionForm, setShowingSuggestionForm] = useState(null);
@@ -80,6 +81,11 @@ function MapPage() {
       categoriesWithCounts={categoriesWithCounts}
       selectedCategories={selectedCategories}
       handleToggleCategory={handleToggleCategory}
+      searchQuery={searchQuery}
+      setSearchQuery={setSearchQuery}
+      countryFilter={countryFilter}
+      setCountryFilter={setCountryFilter}
+      uniqueCountries={uniqueCountries}
     />
   );
 
