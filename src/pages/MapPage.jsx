@@ -113,7 +113,6 @@ function MapPage() {
                 icon={getMarkerIcon(location, colorScheme, categoriesWithCounts)}
               >
                 <Popup
-                  closeOnClick={false}
                   onClose={() => {
                     setShowingSuggestionForm(null);
                     setSuggestionSuccess(null);
