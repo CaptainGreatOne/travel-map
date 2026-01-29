@@ -185,7 +185,7 @@ Plans:
 
 Plans:
 - [x] 10-01: SearchableLocationSelect component (Wave 1)
-- [ ] 10-02: Batch operations and map popup videos (Wave 2)
+- [x] 10-02: Batch operations and map popup videos (Wave 2)
 
 #### Phase 11: Security Hardening
 **Goal**: XSS protection, SQL injection prevention, URL validation for Google Maps inputs
@@ -195,7 +195,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 11-01: TBD
+- [ ] 11-01: Security utilities (URL validation, content sanitization) (Wave 1)
+- [ ] 11-02: Form integration and SQL audit (Wave 2)
 
 #### Phase 12: Map Performance
 **Goal**: Handle 600+ pins efficiently with clustering, click-away to close popup
@@ -234,7 +235,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 7. Testing & Polish | v1.0 | 4/4 | Complete | 2026-01-23 |
 | 8. Country Field | v1.1 | 3/3 | Complete | 2026-01-26 |
 | 9. Admin Search & Sort | v1.1 | 1/1 | Complete | 2026-01-28 |
-| 10. Video-Location UX | v1.1 | 1/2 | In progress | - |
+| 10. Video-Location UX | v1.1 | 2/2 | Complete | 2026-01-29 |
 | 11. Security Hardening | v1.1 | 0/? | Not started | - |
 | 12. Map Performance | v1.1 | 0/? | Not started | - |
 | 13. User Map Search | v1.1 | 0/? | Not started | - |
