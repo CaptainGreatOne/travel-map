@@ -3,8 +3,144 @@ import {
   parseGoogleMapsUrl,
   parseGoogleMapsCoordinates,
   parseGoogleMapsUrlAsync,
-  parseGoogleMapsCountry
+  parseGoogleMapsCountry,
+  isValidGoogleMapsUrl
 } from './parseGoogleMapsUrl';
+
+describe('isValidGoogleMapsUrl', () => {
+  describe('valid Google Maps URLs', () => {
+    it('accepts google.com/maps/place URLs', () => {
+      const result = isValidGoogleMapsUrl('https://www.google.com/maps/place/Eiffel+Tower');
+      expect(result).toEqual({ valid: true });
+    });
+
+    it('accepts google.com/maps URLs', () => {
+      const result = isValidGoogleMapsUrl('https://www.google.com/maps?q=40.7128,-74.0060');
+      expect(result).toEqual({ valid: true });
+    });
+
+    it('accepts maps.google.com URLs', () => {
+      const result = isValidGoogleMapsUrl('https://maps.google.com/maps?q=test');
+      expect(result).toEqual({ valid: true });
+    });
+
+    it('accepts goo.gl/maps short URLs', () => {
+      const result = isValidGoogleMapsUrl('https://goo.gl/maps/abc123xyz');
+      expect(result).toEqual({ valid: true });
+    });
+
+    it('accepts maps.app.goo.gl short URLs', () => {
+      const result = isValidGoogleMapsUrl('https://maps.app.goo.gl/abc123xyz');
+      expect(result).toEqual({ valid: true });
+    });
+
+    it('accepts HTTP URLs', () => {
+      const result = isValidGoogleMapsUrl('http://www.google.com/maps/place/Test');
+      expect(result).toEqual({ valid: true });
+    });
+  });
+
+  describe('invalid inputs', () => {
+    it('rejects empty string', () => {
+      const result = isValidGoogleMapsUrl('');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects null', () => {
+      const result = isValidGoogleMapsUrl(null);
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects undefined', () => {
+      const result = isValidGoogleMapsUrl(undefined);
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects whitespace-only string', () => {
+      const result = isValidGoogleMapsUrl('   ');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects random text that is not a URL', () => {
+      const result = isValidGoogleMapsUrl('this is not a url');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+  });
+
+  describe('non-Google domains', () => {
+    it('rejects evil.com/maps URLs', () => {
+      const result = isValidGoogleMapsUrl('https://evil.com/maps/place/Test');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects google.com.evil.com domain spoofing', () => {
+      const result = isValidGoogleMapsUrl('https://google.com.evil.com/maps');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects maps.google.evil.com domain spoofing', () => {
+      const result = isValidGoogleMapsUrl('https://maps.google.evil.com/maps');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects random websites', () => {
+      const result = isValidGoogleMapsUrl('https://example.com/some/path');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+  });
+
+  describe('dangerous protocols', () => {
+    it('rejects javascript: protocol', () => {
+      const result = isValidGoogleMapsUrl('javascript:alert(1)');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects data: protocol', () => {
+      const result = isValidGoogleMapsUrl('data:text/html,<script>alert(1)</script>');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects file: protocol', () => {
+      const result = isValidGoogleMapsUrl('file:///etc/passwd');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+  });
+
+  describe('google.com without maps path', () => {
+    it('rejects google.com without maps path', () => {
+      const result = isValidGoogleMapsUrl('https://www.google.com/search?q=test');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+
+    it('rejects google.com root', () => {
+      const result = isValidGoogleMapsUrl('https://www.google.com/');
+      expect(result.valid).toBe(false);
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+    });
+  });
+
+  describe('error message is user-friendly', () => {
+    it('provides helpful error message for invalid input', () => {
+      const result = isValidGoogleMapsUrl('not-a-url');
+      expect(result.error).toBe('Please enter a valid Google Maps URL');
+      // Should NOT contain technical details like "URL parsing failed" or "invalid protocol"
+      expect(result.error).not.toMatch(/parse|protocol|domain|regex|error/i);
+    });
+  });
+});
 
 describe('parseGoogleMapsCountry', () => {
   describe('Location, City, Country pattern', () => {
@@ -245,20 +381,19 @@ describe('parseGoogleMapsUrlAsync', () => {
       expect(result.countryCode).toBe('JP');
     });
 
-    it('returns null country for location without country info', async () => {
+    it('fetches country via reverse geocoding when not in place name', async () => {
       const url = 'https://www.google.com/maps/place/Central+Park/@40.7829,-73.9654,15z';
       const result = await parseGoogleMapsUrlAsync(url);
       expect(result.name).toBe('Central Park');
-      expect(result.country).toBeNull();
-      expect(result.countryCode).toBeNull();
+      // Reverse geocoding should find US
+      expect(result.countryCode).toBe('US');
     });
 
-    it('returns null country/countryCode when URL cannot be parsed', async () => {
+    it('fetches country via reverse geocoding for coordinates-only URL', async () => {
       const url = 'https://www.google.com/maps?q=40.7128,-74.0060';
       const result = await parseGoogleMapsUrlAsync(url);
-      // Coordinates-only URL has no name, so no country
-      expect(result.country).toBeNull();
-      expect(result.countryCode).toBeNull();
+      // Coordinates-only URL gets country from reverse geocoding
+      expect(result.countryCode).toBe('US');
     });
   });
 });
