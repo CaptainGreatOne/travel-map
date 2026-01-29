@@ -11,7 +11,7 @@ None (general React/Supabase web application)
 ## Milestones
 
 - ✅ **v1.0 MVP** - Phases 1-7 (shipped 2026-01-23)
-- 🚧 **v1.1 Core Enhancements** - Phases 8-13 (in progress)
+- ✅ **v1.1 Core Enhancements** - Phases 8-13 (shipped 2026-01-29) — [Archive](milestones/v1.1-ROADMAP.md)
 
 ## Phases
 
@@ -153,69 +153,19 @@ Key work:
 
 ---
 
-### 🚧 v1.1 Core Enhancements (In Progress)
+<details>
+<summary>✅ v1.1 Core Enhancements (Phases 8-13) — SHIPPED 2026-01-29</summary>
 
-**Milestone Goal:** Enhance admin UX, add country tracking, improve video-location linking, harden security, and optimize map performance for 600+ pins.
+- [x] Phase 8: Country Field (3/3 plans) — completed 2026-01-26
+- [x] Phase 9: Admin Search & Sort (1/1 plan) — completed 2026-01-28
+- [x] Phase 10: Video-Location UX (2/2 plans) — completed 2026-01-29
+- [x] Phase 11: Security Hardening (2/2 plans) — completed 2026-01-29
+- [x] Phase 12: Map Performance (1/1 plan) — completed 2026-01-29
+- [x] Phase 13: User Map Search (1/1 plan) — completed 2026-01-29
 
-#### Phase 8: Country Field
-**Goal**: Add country column to locations table, update suggestion forms to extract and display country from Google Maps
-**Depends on**: Phase 7
-**Research**: Unlikely (database migration + form updates using established patterns)
-**Plans**: 3 plans
+See [v1.1 Archive](milestones/v1.1-ROADMAP.md) for full details.
 
-Plans:
-- [x] 08-01: Country field infrastructure (migration + parser)
-- [x] 08-02: Admin integration (LocationManager)
-- [x] 08-03: Form integration (SuggestForm, LocationSuggestionForm)
-
-#### Phase 9: Admin Search & Sort
-**Goal**: Add sortable columns (name, date), searchbar, and category/country filtering to admin location list
-**Depends on**: Phase 8
-**Research**: Unlikely (React table patterns, existing Tailwind styling)
-**Plans**: 1 plan
-
-Plans:
-- [x] 09-01: Search, category filter, and sortable columns
-
-#### Phase 10: Video-Location UX
-**Goal**: Searchable dropdown for video-location linking, multi-select, visited-only filter, display video links on map popups
-**Depends on**: Phase 9
-**Research**: Unlikely (React select patterns, existing component structure)
-**Plans**: 2 plans in 2 waves
-
-Plans:
-- [x] 10-01: SearchableLocationSelect component (Wave 1)
-- [x] 10-02: Batch operations and map popup videos (Wave 2)
-
-#### Phase 11: Security Hardening
-**Goal**: XSS protection, SQL injection prevention, URL validation for Google Maps inputs
-**Depends on**: Phase 10
-**Research**: Likely (security best practices, DOMPurify or similar)
-**Research topics**: XSS sanitization libraries, Supabase parameterized queries verification, URL validation patterns
-**Plans**: TBD
-
-Plans:
-- [x] 11-01: Security utilities (URL validation, content sanitization) (Wave 1)
-- [x] 11-02: Form integration and SQL audit (Wave 2)
-
-#### Phase 12: Map Performance
-**Goal**: Handle 600+ pins efficiently with clustering, click-away to close popup
-**Depends on**: Phase 11
-**Research**: Likely (Leaflet clustering plugins)
-**Research topics**: react-leaflet-cluster or Leaflet.markercluster integration, performance benchmarks
-**Plans**: TBD
-
-Plans:
-- [x] 12-01: Marker clustering and click-away popup (Wave 1)
-
-#### Phase 13: User Map Search
-**Goal**: Add search functionality for all users to filter map pins by country and location name
-**Depends on**: Phase 12
-**Research**: Unlikely (search/filter using existing patterns)
-**Plans**: TBD
-
-Plans:
-- [x] 13-01: Search and country filter for public map
+</details>
 
 ---
 
@@ -248,3 +198,12 @@ All 7 phases executed successfully on 2026-01-23.
 - 29 plans executed
 - 69 automated tests
 - ~110 minutes total execution time
+
+## v1.1 Core Enhancements Complete
+
+All 6 phases executed successfully on 2026-01-29.
+
+**v1.1 Stats:**
+- 10 plans executed
+- 4 days (2026-01-26 → 2026-01-29)
+- Country tracking, admin UX, security, performance
