@@ -1,4 +1,72 @@
 /**
+ * Valid Google Maps domains for URL validation.
+ * Used by isValidGoogleMapsUrl to ensure URLs are from trusted Google sources.
+ */
+const VALID_GOOGLE_MAPS_DOMAINS = [
+  'google.com',
+  'maps.google.com',
+  'goo.gl',
+  'maps.app.goo.gl'
+];
+
+/**
+ * Validates if a URL is a valid Google Maps URL.
+ * Checks that the URL is well-formed and from a Google Maps domain.
+ *
+ * @param {string} url - The URL to validate
+ * @returns {{valid: boolean, error?: string}} - Validation result with user-friendly error
+ */
+export function isValidGoogleMapsUrl(url) {
+  // Check URL is a string and not empty
+  if (!url || typeof url !== 'string') {
+    return { valid: false, error: 'Please enter a valid Google Maps URL' };
+  }
+
+  const trimmedUrl = url.trim();
+  if (!trimmedUrl) {
+    return { valid: false, error: 'Please enter a valid Google Maps URL' };
+  }
+
+  // Validate URL is a valid URL format
+  let parsedUrl;
+  try {
+    parsedUrl = new URL(trimmedUrl);
+  } catch {
+    return { valid: false, error: 'Please enter a valid Google Maps URL' };
+  }
+
+  // Only allow http and https protocols
+  if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+    return { valid: false, error: 'Please enter a valid Google Maps URL' };
+  }
+
+  // Validate domain is a Google Maps domain
+  const hostname = parsedUrl.hostname.toLowerCase();
+
+  // Check for valid Google Maps domains
+  const isValidDomain = VALID_GOOGLE_MAPS_DOMAINS.some(domain => {
+    // Exact match (e.g., maps.google.com)
+    if (hostname === domain) return true;
+    // Subdomain match for google.com (e.g., www.google.com, maps.google.com)
+    if (domain === 'google.com' && (hostname === 'google.com' || hostname.endsWith('.google.com'))) {
+      // Also verify it's a maps URL by checking path
+      return parsedUrl.pathname.includes('/maps') || parsedUrl.pathname.includes('/place');
+    }
+    // Subdomain match for maps.app.goo.gl
+    if (domain === 'maps.app.goo.gl' && hostname === 'maps.app.goo.gl') return true;
+    // Subdomain match for goo.gl (must have /maps in path)
+    if (domain === 'goo.gl' && hostname === 'goo.gl' && parsedUrl.pathname.startsWith('/maps')) return true;
+    return false;
+  });
+
+  if (!isValidDomain) {
+    return { valid: false, error: 'Please enter a valid Google Maps URL' };
+  }
+
+  return { valid: true };
+}
+
+/**
  * Country name to ISO code mapping for common countries.
  * Used to convert extracted country names to 2-character codes.
  */
@@ -296,6 +364,52 @@ async function tryExpandShortUrl(shortUrl) {
 }
 
 /**
+ * Fetches country information from coordinates using OpenStreetMap Nominatim.
+ * Free API, no key required. Respects usage policy with reasonable timeouts.
+ *
+ * @param {number} lat - Latitude
+ * @param {number} lng - Longitude
+ * @returns {Promise<{country: string, countryCode: string}|null>} Country info or null on failure
+ */
+async function fetchCountryFromCoordinates(lat, lng) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+  try {
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,
+      {
+        headers: {
+          // Nominatim requires a User-Agent identifying the application
+          'User-Agent': 'TravelMapApp/1.0'
+        },
+        signal: controller.signal
+      }
+    );
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = await response.json();
+
+    if (data.address?.country_code) {
+      return {
+        country: data.address.country || null,
+        countryCode: data.address.country_code.toUpperCase()
+      };
+    }
+
+    return null;
+  } catch {
+    clearTimeout(timeoutId);
+    return null;
+  }
+}
+
+/**
  * Result object from parseGoogleMapsUrlAsync.
  * @typedef {Object} ParseResult
  * @property {string|null} name - Extracted location name or null
@@ -323,7 +437,14 @@ export async function parseGoogleMapsUrlAsync(url) {
     const coords = parseGoogleMapsCoordinates(url);
 
     if (name || coords) {
-      const countryInfo = name ? parseGoogleMapsCountry(name) : null;
+      // Try text-based country extraction first (fast)
+      let countryInfo = name ? parseGoogleMapsCountry(name) : null;
+
+      // If no country from text but we have coordinates, try reverse geocoding
+      if (!countryInfo?.countryCode && coords) {
+        countryInfo = await fetchCountryFromCoordinates(coords.lat, coords.lng);
+      }
+
       return {
         name,
         lat: coords?.lat || null,
@@ -343,7 +464,14 @@ export async function parseGoogleMapsUrlAsync(url) {
         // Successfully expanded - parse the expanded URL
         const expandedName = parseGoogleMapsUrl(expandedUrl);
         const expandedCoords = parseGoogleMapsCoordinates(expandedUrl);
-        const expandedCountryInfo = expandedName ? parseGoogleMapsCountry(expandedName) : null;
+
+        // Try text-based extraction first
+        let expandedCountryInfo = expandedName ? parseGoogleMapsCountry(expandedName) : null;
+
+        // If no country from text but we have coordinates, try reverse geocoding
+        if (!expandedCountryInfo?.countryCode && expandedCoords) {
+          expandedCountryInfo = await fetchCountryFromCoordinates(expandedCoords.lat, expandedCoords.lng);
+        }
 
         return {
           name: expandedName,
