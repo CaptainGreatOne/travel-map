@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Link as LinkIcon } from 'lucide-react';
-import { parseGoogleMapsUrlAsync } from '../utils/parseGoogleMapsUrl';
+import { parseGoogleMapsUrlAsync, isValidGoogleMapsUrl } from '../utils/parseGoogleMapsUrl';
 import { validateRequired, getUsernameFromEmail } from '../utils/validation';
 import { submitSuggestion } from '../services/suggestionService';
 import LocationPreview from './LocationPreview';
@@ -26,6 +26,7 @@ function SuggestForm({ user }) {
   const handleGoogleMapsLinkChange = async (e) => {
     const url = e.target.value;
     setGoogleMapsLink(url);
+    setFieldErrors(prev => ({ ...prev, googleMapsLink: undefined }));
 
     // Clear preview when URL is emptied
     if (!url) {
@@ -33,23 +34,12 @@ function SuggestForm({ user }) {
       return;
     }
 
-    // Check if it looks like a Google Maps URL before parsing
-    const isGoogleMapsUrl = url.includes('google.com/maps') ||
-                            url.includes('maps.google.com') ||
-                            url.includes('maps.app.goo.gl') ||
-                            url.includes('goo.gl/maps');
-
-    if (!isGoogleMapsUrl) {
-      // Not a recognized URL format - show helpful error
-      setPreviewData({
-        name: null,
-        lat: null,
-        lng: null,
-        loading: false,
-        error: "We couldn't recognize this URL format. Try copying the URL directly from your browser's address bar.",
-        isShortUrl: false,
-        shortUrlFallback: false
-      });
+    // Validate URL format and domain using security utility
+    const validation = isValidGoogleMapsUrl(url);
+    if (!validation.valid) {
+      // Show validation error via fieldErrors for consistent UX
+      setFieldErrors(prev => ({ ...prev, googleMapsLink: validation.error }));
+      setPreviewData(null);
       return;
     }
 
@@ -153,12 +143,16 @@ function SuggestForm({ user }) {
       // Parse coordinates and country from Google Maps URL if provided
       let latitude = null;
       let longitude = null;
+      let country = null;
       let countryCode = null;
       if (googleMapsLink) {
         const parsed = await parseGoogleMapsUrlAsync(googleMapsLink);
         if (parsed.lat && parsed.lng) {
           latitude = parsed.lat;
           longitude = parsed.lng;
+        }
+        if (parsed.country) {
+          country = parsed.country;
         }
         if (parsed.countryCode) {
           countryCode = parsed.countryCode;
@@ -171,6 +165,7 @@ function SuggestForm({ user }) {
         latitude,
         longitude,
         reason,
+        country,
         countryCode
       });
 
@@ -225,11 +220,15 @@ function SuggestForm({ user }) {
             <small className="block mt-2 text-gray-600 text-sm">
               Paste a Google Maps share link and we'll auto-fill the location name
             </small>
+            {fieldErrors.googleMapsLink && (
+              <p className="mt-1 text-sm text-red-600">{fieldErrors.googleMapsLink}</p>
+            )}
             {googleMapsLink && previewData && (
               <LocationPreview
                 name={previewData.name}
                 lat={previewData.lat}
                 lng={previewData.lng}
+                country={previewData.country}
                 countryCode={previewData.countryCode}
                 loading={previewData.loading}
                 error={previewData.error}
