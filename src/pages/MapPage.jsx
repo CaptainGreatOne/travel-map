@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import MapLegend from '../components/MapLegend';
@@ -9,7 +10,6 @@ import MapErrorBoundary from '../components/MapErrorBoundary';
 import { useAuth } from '../contexts/AuthContext';
 import { useMapFilters } from '../hooks/useMapFilters';
 import { mapStyles, getMarkerIcon } from '../utils/mapStyles';
-import { sampleLocations, categories as categoryData } from '../data/sampleData';
 import { fetchLocations, fetchCategories } from '../services/locationService';
 
 // Fix for default marker icons
@@ -22,11 +22,16 @@ L.Icon.Default.mergeOptions({
 
 function MapPage() {
   const { user } = useAuth();
-  const [locations, setLocations] = useState(sampleLocations); // Start with sample as fallback
-  const [categories, setCategories] = useState(categoryData); // Start with sample as fallback
+  const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState(null);
 
   useEffect(() => {
     async function loadData() {
+      setIsLoading(true);
+      setLoadError(null);
+
       const [dbLocations, dbCategories] = await Promise.all([
         fetchLocations(),
         fetchCategories()
@@ -34,10 +39,17 @@ function MapPage() {
 
       if (dbLocations) {
         setLocations(dbLocations);
+      } else {
+        // TODO: Decide how to handle location loading failures
+        // Options: show error message, retry button, offline mode with cached data
+        setLoadError('Unable to load locations');
       }
+
       if (dbCategories) {
         setCategories(dbCategories);
       }
+
+      setIsLoading(false);
     }
 
     loadData();
@@ -88,36 +100,44 @@ function MapPage() {
             url={mapStyles[mapStyle].url}
           />
 
-          {filteredLocations.map(location => (
-            <Marker
-              key={location.id}
-              position={[location.latitude, location.longitude]}
-              icon={getMarkerIcon(location, colorScheme, categoriesWithCounts)}
-            >
-              <Popup
-                closeOnClick={false}
-                onClose={() => {
-                  setShowingSuggestionForm(null);
-                  setSuggestionSuccess(null);
-                }}
+          <MarkerClusterGroup
+            chunkedLoading={true}
+            spiderfyOnMaxZoom={true}
+            showCoverageOnHover={false}
+            maxClusterRadius={50}
+          >
+            {filteredLocations.map(location => (
+              <Marker
+                key={location.id}
+                position={[location.latitude, location.longitude]}
+                icon={getMarkerIcon(location, colorScheme, categoriesWithCounts)}
               >
-                <MarkerPopup
-                  location={location}
-                  categoryInfo={getCategoryInfo(location.category)}
-                  isShowingForm={showingSuggestionForm === location.id}
-                  isSuccess={suggestionSuccess === location.id}
-                  user={user}
-                  onShowForm={() => setShowingSuggestionForm(location.id)}
-                  onCancelForm={() => setShowingSuggestionForm(null)}
-                  onSuccess={() => {
+                <Popup
+                  closeOnClick={false}
+                  onClose={() => {
                     setShowingSuggestionForm(null);
-                    setSuggestionSuccess(location.id);
-                    setTimeout(() => setSuggestionSuccess(null), 5000);
+                    setSuggestionSuccess(null);
                   }}
-                />
-              </Popup>
-            </Marker>
-          ))}
+                >
+                  <MarkerPopup
+                    location={location}
+                    categoryInfo={getCategoryInfo(location.category)}
+                    videos={location.videos || []}
+                    isShowingForm={showingSuggestionForm === location.id}
+                    isSuccess={suggestionSuccess === location.id}
+                    user={user}
+                    onShowForm={() => setShowingSuggestionForm(location.id)}
+                    onCancelForm={() => setShowingSuggestionForm(null)}
+                    onSuccess={() => {
+                      setShowingSuggestionForm(null);
+                      setSuggestionSuccess(location.id);
+                      setTimeout(() => setSuggestionSuccess(null), 5000);
+                    }}
+                  />
+                </Popup>
+              </Marker>
+            ))}
+          </MarkerClusterGroup>
         </MapContainer>
 
         <MapLegend
