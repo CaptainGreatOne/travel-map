@@ -215,7 +215,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 13-01: TBD
+- [x] 13-01: Search and country filter for public map
 
 ---
 
@@ -238,7 +238,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 10. Video-Location UX | v1.1 | 2/2 | Complete | 2026-01-29 |
 | 11. Security Hardening | v1.1 | 2/2 | Complete | 2026-01-29 |
 | 12. Map Performance | v1.1 | 1/1 | Complete | 2026-01-29 |
-| 13. User Map Search | v1.1 | 0/? | Not started | - |
+| 13. User Map Search | v1.1 | 1/1 | Complete | 2026-01-29 |
 
 ## v1.0 MVP Complete
 

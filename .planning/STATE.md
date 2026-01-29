@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-15)
 
 ## Current Position
 
-Phase: 12 of 13 (Map Performance)
+Phase: 13 of 13 (User Map Search)
 Plan: 1 of 1 in current phase
 Status: Phase complete
-Last activity: 2026-01-29 — Completed 12-01-PLAN.md
+Last activity: 2026-01-29 — Completed 13-01-PLAN.md
 
-Progress: █████████░░░░░░░░░░░░░░░ 36% (9/? plans in v1.1)
+Progress: ██████████████████████████ 100% (10/10 plans in v1.1)
 
 ## Performance Metrics
 
@@ -116,6 +116,9 @@ Recent decisions affecting current work:
 - react-leaflet-cluster for marker clustering (12-01)
 - Remove closeOnClick={false} for native Leaflet click-away behavior (12-01)
 - Blue cluster color scheme to complement marker colors (12-01)
+- Case-insensitive search using toLowerCase() for user filtering (13-01)
+- uniqueCountries computed from validLocations for country dropdown (13-01)
+- Search and country filters combine with AND logic (13-01)
 
 ### Deferred Issues
 
@@ -137,6 +140,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29
-Stopped at: Completed 12-01-PLAN.md
+Stopped at: Completed 13-01-PLAN.md
 Resume file: None
-Next action: Plan phase 13 (Final phase)
+Next action: Milestone v1.1 complete
