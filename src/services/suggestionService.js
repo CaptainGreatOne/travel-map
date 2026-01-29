@@ -1,20 +1,26 @@
 import { supabase } from '../utils/supabaseClient';
+import { sanitizeForDatabase } from '../utils/sanitize';
 
 /**
  * Submits a new location suggestion
- * data: { locationName, googleMapsUrl, latitude, longitude, reason, countryCode }
+ * data: { locationName, googleMapsUrl, latitude, longitude, reason, country, countryCode }
  * Returns: { success: boolean, error?: string }
  */
 export async function submitSuggestion(userId, data) {
+  // Sanitize user-provided text content before database insert
+  const sanitizedLocationName = sanitizeForDatabase(data.locationName);
+  const sanitizedReason = sanitizeForDatabase(data.reason);
+
   const { error } = await supabase
     .from('suggestions')
     .insert({
       user_id: userId,
-      location_name: data.locationName,
+      location_name: sanitizedLocationName,
       google_maps_url: data.googleMapsUrl || null,
       latitude: data.latitude || null,
       longitude: data.longitude || null,
-      reason: data.reason,
+      reason: sanitizedReason,
+      country: data.country || null,
       country_code: data.countryCode || null
     });
 
@@ -35,12 +41,15 @@ export async function submitSuggestion(userId, data) {
  * Returns: { success: boolean, error?: string }
  */
 export async function submitReminder(userId, locationId, message = null) {
+  // Sanitize user-provided message before database insert
+  const sanitizedMessage = message ? sanitizeForDatabase(message) : null;
+
   const { error } = await supabase
     .from('reminders')
     .insert({
       user_id: userId,
       location_id: locationId,
-      message: message
+      message: sanitizedMessage
     });
 
   if (error) {
