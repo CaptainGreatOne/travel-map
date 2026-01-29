@@ -206,7 +206,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 12-01: TBD
+- [ ] 12-01: Marker clustering and click-away popup (Wave 1)
 
 #### Phase 13: User Map Search
 **Goal**: Add search functionality for all users to filter map pins by country and location name
@@ -237,7 +237,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 9. Admin Search & Sort | v1.1 | 1/1 | Complete | 2026-01-28 |
 | 10. Video-Location UX | v1.1 | 2/2 | Complete | 2026-01-29 |
 | 11. Security Hardening | v1.1 | 2/2 | Complete | 2026-01-29 |
-| 12. Map Performance | v1.1 | 0/? | Not started | - |
+| 12. Map Performance | v1.1 | 0/1 | Not started | - |
 | 13. User Map Search | v1.1 | 0/? | Not started | - |
 
 ## v1.0 MVP Complete
