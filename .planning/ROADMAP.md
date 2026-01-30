@@ -12,6 +12,7 @@ None (general React/Supabase web application)
 
 - ✅ **v1.0 MVP** - Phases 1-7 (shipped 2026-01-23)
 - ✅ **v1.1 Core Enhancements** - Phases 8-13 (shipped 2026-01-29) — [Archive](milestones/v1.1-ROADMAP.md)
+- 🚧 **v1.2 Content & Sharing** - Phases 14-19 (in progress)
 
 ## Phases
 
@@ -169,6 +170,76 @@ See [v1.1 Archive](milestones/v1.1-ROADMAP.md) for full details.
 
 ---
 
+### 🚧 v1.2 Content & Sharing (In Progress)
+
+**Milestone Goal:** Add user-facing content enhancements (location sharing, richer popups) and admin content management (photos, about page, dynamic stats)
+
+#### Phase 14: Shareable Location URLs
+
+**Goal**: Enable direct links to specific locations with auto-open popups
+**Depends on**: Phase 13
+**Research**: Unlikely (React Router URL params, internal patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 14-01: TBD (run /gsd:plan-phase 14 to break down)
+
+#### Phase 15: Enhanced Location Popup
+
+**Goal**: Add Google Static Maps preview images with graceful fallback
+**Depends on**: Phase 14
+**Research**: Likely (Google Static Maps API)
+**Research topics**: API key setup, usage limits, image sizing, fallback strategies
+**Plans**: TBD
+
+Plans:
+- [ ] 15-01: TBD
+
+#### Phase 16: Photography Page CMS
+
+**Goal**: Admin can upload photos and manage display order
+**Depends on**: Phase 15
+**Research**: Likely (Supabase storage)
+**Research topics**: Supabase storage buckets, image upload patterns, drag-and-drop ordering
+**Plans**: TBD
+
+Plans:
+- [ ] 16-01: TBD
+
+#### Phase 17: About Page CMS
+
+**Goal**: Admin-editable bio, social links, highlights, and video embed
+**Depends on**: Phase 16
+**Research**: Unlikely (internal CRUD patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 17-01: TBD
+
+#### Phase 18: Dynamic Stats
+
+**Goal**: Location count from DB, video count from YouTube API with fallback
+**Depends on**: Phase 17
+**Research**: Likely (YouTube Data API)
+**Research topics**: YouTube Data API v3, quota limits, channel statistics endpoint
+**Plans**: TBD
+
+Plans:
+- [ ] 18-01: TBD
+
+#### Phase 19: Instagram Feed Integration
+
+**Goal**: Dynamic Instagram feed component with profile link
+**Depends on**: Phase 18
+**Research**: Likely (Instagram API)
+**Research topics**: Instagram Basic Display API, Facebook app review, authentication flow, alternatives
+**Plans**: TBD
+
+Plans:
+- [ ] 19-01: TBD
+
+---
+
 ## Progress
 
 **Execution Order:**
@@ -189,6 +260,12 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 11. Security Hardening | v1.1 | 2/2 | Complete | 2026-01-29 |
 | 12. Map Performance | v1.1 | 1/1 | Complete | 2026-01-29 |
 | 13. User Map Search | v1.1 | 1/1 | Complete | 2026-01-29 |
+| 14. Shareable Location URLs | v1.2 | 0/? | Not started | - |
+| 15. Enhanced Location Popup | v1.2 | 0/? | Not started | - |
+| 16. Photography Page CMS | v1.2 | 0/? | Not started | - |
+| 17. About Page CMS | v1.2 | 0/? | Not started | - |
+| 18. Dynamic Stats | v1.2 | 0/? | Not started | - |
+| 19. Instagram Feed Integration | v1.2 | 0/? | Not started | - |
 
 ## v1.0 MVP Complete
 

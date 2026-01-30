@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-01-29)
 
 **Core value:** Interactive companion app for a travel vlog YouTube channel
-**Current focus:** v1.1 shipped — planning next milestone
+**Current focus:** v1.2 Content & Sharing — location sharing, richer popups, admin CMS
 
 ## Current Position
 
-Phase: 13 of 13 (complete)
-Plan: All plans complete
-Status: **v1.1 Milestone Complete**
-Last activity: 2026-01-29 — Shipped v1.1 Core Enhancements
+Phase: 14 of 19 (Shareable Location URLs)
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-01-30 — Milestone v1.2 created
 
-Progress: ██████████████████████████ 100% (v1.0 + v1.1 complete)
+Progress: ░░░░░░░░░░ 0% (v1.2)
 
 ## Performance Metrics
 
@@ -135,11 +135,12 @@ None yet.
 ### Roadmap Evolution
 
 - v1.0 MVP completed: Styling, components, error handling, database, admin panel, suggestions, testing (Phases 1-7, shipped 2026-01-23)
-- v1.1 Core Enhancements created: Admin UX, country tracking, video-location UX, security, map performance (Phases 8-13)
+- v1.1 Core Enhancements completed: Admin UX, country tracking, video-location UX, security, map performance (Phases 8-13, shipped 2026-01-29)
+- v1.2 Content & Sharing created: Location sharing, enhanced popups, photography CMS, about page CMS, dynamic stats, Instagram feed (Phases 14-19)
 
 ## Session Continuity
 
-Last session: 2026-01-29
-Stopped at: v1.1 milestone archived
+Last session: 2026-01-30
+Stopped at: Milestone v1.2 initialization
 Resume file: None
-Next action: Plan v1.2 or deploy to production
+Next action: Plan Phase 14 (Shareable Location URLs)
