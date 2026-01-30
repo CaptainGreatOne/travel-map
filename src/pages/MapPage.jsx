@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -20,12 +21,28 @@ L.Icon.Default.mergeOptions({
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
 
+// Helper component to control map view
+function MapViewController({ selectedLocation }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (selectedLocation) {
+      map.setView([selectedLocation.latitude, selectedLocation.longitude], 12);
+    }
+  }, [selectedLocation, map]);
+
+  return null;
+}
+
 function MapPage() {
   const { user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const markerRefs = useRef({});
 
   useEffect(() => {
     async function loadData() {
@@ -55,6 +72,20 @@ function MapPage() {
     loadData();
   }, []);
 
+  // Handle URL location parameter
+  useEffect(() => {
+    const locationSlug = searchParams.get('location');
+    if (locationSlug && locations.length > 0) {
+      const matchingLocation = locations.find(loc => loc.slug === locationSlug);
+      if (matchingLocation) {
+        setSelectedLocation(matchingLocation);
+      } else {
+        // Invalid slug - clear URL param silently
+        setSearchParams({});
+      }
+    }
+  }, [locations, searchParams, setSearchParams]);
+
   const {
     selectedStatuses, selectedCategories, mapStyle, colorScheme, filtersOpen,
     categoriesWithCounts, filteredLocations, visitedCount, wantToVisitCount,
@@ -65,6 +96,16 @@ function MapPage() {
 
   const [showingSuggestionForm, setShowingSuggestionForm] = useState(null);
   const [suggestionSuccess, setSuggestionSuccess] = useState(null);
+
+  // Programmatically open popup when selectedLocation is set
+  useEffect(() => {
+    if (selectedLocation && markerRefs.current[selectedLocation.id]) {
+      // Small timeout to ensure marker is rendered
+      setTimeout(() => {
+        markerRefs.current[selectedLocation.id]?.openPopup();
+      }, 100);
+    }
+  }, [selectedLocation, filteredLocations]);
 
   const sidebarFilters = (
     <SidebarFilters
@@ -106,6 +147,8 @@ function MapPage() {
             url={mapStyles[mapStyle].url}
           />
 
+          <MapViewController selectedLocation={selectedLocation} />
+
           <MarkerClusterGroup
             chunkedLoading={true}
             spiderfyOnMaxZoom={true}
@@ -117,6 +160,7 @@ function MapPage() {
                 key={location.id}
                 position={[location.latitude, location.longitude]}
                 icon={getMarkerIcon(location, colorScheme, categoriesWithCounts)}
+                ref={(ref) => { if (ref) markerRefs.current[location.id] = ref; }}
               >
                 <Popup
                   onClose={() => {
