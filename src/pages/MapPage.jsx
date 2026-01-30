@@ -189,6 +189,10 @@ function MapPage() {
                       setSuggestionSuccess(location.id);
                       setTimeout(() => setSuggestionSuccess(null), 5000);
                     }}
+                    onShare={() => {
+                      const url = `${window.location.origin}/?location=${location.slug}`;
+                      navigator.clipboard.writeText(url);
+                    }}
                   />
                 </Popup>
               </Marker>
