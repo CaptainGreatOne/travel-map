@@ -43,6 +43,7 @@ function MapPage() {
   const [loadError, setLoadError] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const markerRefs = useRef({});
+  const isInitialUrlLoad = useRef(true); // Track if this is initial page load with URL param
 
   useEffect(() => {
     async function loadData() {
@@ -72,10 +73,10 @@ function MapPage() {
     loadData();
   }, []);
 
-  // Handle URL location parameter
+  // Handle URL location parameter - only zoom on initial page load with shared URL
   useEffect(() => {
     const locationSlug = searchParams.get('location');
-    if (locationSlug && locations.length > 0) {
+    if (locationSlug && locations.length > 0 && isInitialUrlLoad.current) {
       const matchingLocation = locations.find(loc => loc.slug === locationSlug);
       if (matchingLocation) {
         setSelectedLocation(matchingLocation);
@@ -83,6 +84,11 @@ function MapPage() {
         // Invalid slug - clear URL param silently
         setSearchParams({});
       }
+      // Mark initial load as complete - subsequent URL changes won't trigger zoom
+      isInitialUrlLoad.current = false;
+    } else if (locations.length > 0 && isInitialUrlLoad.current) {
+      // No location param on initial load - mark as complete
+      isInitialUrlLoad.current = false;
     }
   }, [locations, searchParams, setSearchParams]);
 
