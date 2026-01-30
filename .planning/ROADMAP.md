@@ -184,12 +184,13 @@ See [v1.1 Archive](milestones/v1.1-ROADMAP.md) for full details.
 Plans:
 - [x] 14-01: URL sync and share button (read/write URL params, share icon in popup)
 
-#### Phase 15: Enhanced Location Popup
+#### Phase 15: Enhanced Location Popup (DEFERRED)
 
 **Goal**: Add Google Static Maps preview images with graceful fallback
 **Depends on**: Phase 14
 **Research**: Likely (Google Static Maps API)
 **Research topics**: API key setup, usage limits, image sizing, fallback strategies
+**Status**: Deferred pending Google Cloud API setup
 **Plans**: TBD
 
 Plans:
@@ -198,13 +199,14 @@ Plans:
 #### Phase 16: Photography Page CMS
 
 **Goal**: Admin can upload photos and manage display order
-**Depends on**: Phase 15
-**Research**: Likely (Supabase storage)
-**Research topics**: Supabase storage buckets, image upload patterns, drag-and-drop ordering
-**Plans**: TBD
+**Depends on**: Phase 14 (Phase 15 deferred)
+**Research**: Unlikely (Supabase storage patterns established)
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 16-01: TBD
+- [ ] 16-01: Database and storage setup (photos table, photoService)
+- [ ] 16-02: Admin PhotoManager UI (upload, reorder, delete)
+- [ ] 16-03: Photography page integration (fetch from DB, remove sample data)
 
 #### Phase 17: About Page CMS
 
@@ -261,8 +263,8 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 12. Map Performance | v1.1 | 1/1 | Complete | 2026-01-29 |
 | 13. User Map Search | v1.1 | 1/1 | Complete | 2026-01-29 |
 | 14. Shareable Location URLs | v1.2 | 1/1 | Complete | 2026-01-30 |
-| 15. Enhanced Location Popup | v1.2 | 0/? | Not started | - |
-| 16. Photography Page CMS | v1.2 | 0/? | Not started | - |
+| 15. Enhanced Location Popup | v1.2 | 0/? | Deferred | - |
+| 16. Photography Page CMS | v1.2 | 0/3 | Not started | - |
 | 17. About Page CMS | v1.2 | 0/? | Not started | - |
 | 18. Dynamic Stats | v1.2 | 0/? | Not started | - |
 | 19. Instagram Feed Integration | v1.2 | 0/? | Not started | - |
