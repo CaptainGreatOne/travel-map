@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 14 of 19 (Shareable Location URLs)
-Plan: 1 of 1 in current phase
-Status: Phase complete
-Last activity: 2026-01-30 — Completed 14-01-PLAN.md
+Phase: 16 of 19 (Photography Page CMS)
+Plan: 1 of 3 in current phase
+Status: In progress
+Last activity: 2026-01-30 — Completed 16-01-PLAN.md
 
-Progress: █░░░░░░░░░ 17% (v1.2)
+Progress: ██░░░░░░░░ 33% (v1.2)
 
 ## Performance Metrics
 
@@ -123,6 +123,9 @@ Recent decisions affecting current work:
 - MapViewController pattern for programmatic map.setView() (14-01)
 - markerRefs pattern for programmatic popup control (14-01)
 - Link2 icon for share button, Check icon for copy feedback (14-01)
+- Storage path pattern: photos/{timestamp}-{random}.{ext} for unique filenames (16-01)
+- Delete DB record first, then storage (DB is source of truth) (16-01)
+- Upload cleanup on DB insert failure to prevent orphaned files (16-01)
 
 ### Deferred Issues
 
@@ -145,6 +148,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 14-01-PLAN.md (Phase 14 complete)
+Stopped at: Completed 16-01-PLAN.md (Phase 16 plan 1/3)
 Resume file: None
-Next action: Plan Phase 15 (Enhanced Popups)
+Next action: Execute 16-02-PLAN.md (Admin PhotoManager UI)
