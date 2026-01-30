@@ -182,7 +182,7 @@ See [v1.1 Archive](milestones/v1.1-ROADMAP.md) for full details.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 14-01: URL sync and share button (read/write URL params, share icon in popup)
+- [x] 14-01: URL sync and share button (read/write URL params, share icon in popup)
 
 #### Phase 15: Enhanced Location Popup
 
@@ -260,7 +260,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 11. Security Hardening | v1.1 | 2/2 | Complete | 2026-01-29 |
 | 12. Map Performance | v1.1 | 1/1 | Complete | 2026-01-29 |
 | 13. User Map Search | v1.1 | 1/1 | Complete | 2026-01-29 |
-| 14. Shareable Location URLs | v1.2 | 0/1 | Not started | - |
+| 14. Shareable Location URLs | v1.2 | 1/1 | Complete | 2026-01-30 |
 | 15. Enhanced Location Popup | v1.2 | 0/? | Not started | - |
 | 16. Photography Page CMS | v1.2 | 0/? | Not started | - |
 | 17. About Page CMS | v1.2 | 0/? | Not started | - |

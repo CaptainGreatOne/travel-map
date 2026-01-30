@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 14 of 19 (Shareable Location URLs)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-01-30 — Milestone v1.2 created
+Plan: 1 of 1 in current phase
+Status: Phase complete
+Last activity: 2026-01-30 — Completed 14-01-PLAN.md
 
-Progress: ░░░░░░░░░░ 0% (v1.2)
+Progress: █░░░░░░░░░ 17% (v1.2)
 
 ## Performance Metrics
 
@@ -119,6 +119,10 @@ Recent decisions affecting current work:
 - Case-insensitive search using toLowerCase() for user filtering (13-01)
 - uniqueCountries computed from validLocations for country dropdown (13-01)
 - Search and country filters combine with AND logic (13-01)
+- useSearchParams for bidirectional URL/popup state sync (14-01)
+- MapViewController pattern for programmatic map.setView() (14-01)
+- markerRefs pattern for programmatic popup control (14-01)
+- Link2 icon for share button, Check icon for copy feedback (14-01)
 
 ### Deferred Issues
 
@@ -141,6 +145,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Milestone v1.2 initialization
+Stopped at: Completed 14-01-PLAN.md (Phase 14 complete)
 Resume file: None
-Next action: Plan Phase 14 (Shareable Location URLs)
+Next action: Plan Phase 15 (Enhanced Popups)
