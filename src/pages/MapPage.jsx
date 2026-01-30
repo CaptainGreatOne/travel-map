@@ -161,11 +161,18 @@ function MapPage() {
                 position={[location.latitude, location.longitude]}
                 icon={getMarkerIcon(location, colorScheme, categoriesWithCounts)}
                 ref={(ref) => { if (ref) markerRefs.current[location.id] = ref; }}
+                eventHandlers={{
+                  click: () => {
+                    setSearchParams({ location: location.slug });
+                  }
+                }}
               >
                 <Popup
                   onClose={() => {
                     setShowingSuggestionForm(null);
                     setSuggestionSuccess(null);
+                    setSearchParams({});
+                    setSelectedLocation(null);
                   }}
                 >
                   <MarkerPopup
