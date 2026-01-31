@@ -228,7 +228,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 18-01: TBD
+- [x] 18-01: Database & service layer (stats columns, count functions)
+- [ ] 18-02: Admin UI & About page integration
 
 #### Phase 19: Instagram Feed Integration
 
@@ -267,7 +268,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 15. Enhanced Location Popup | v1.2 | 0/? | Deferred | - |
 | 16. Photography Page CMS | v1.2 | 3/3 | Complete | 2026-01-31 |
 | 17. About Page CMS | v1.2 | 2/2 | Complete | 2026-01-31 |
-| 18. Dynamic Stats | v1.2 | 0/? | Not started | - |
+| 18. Dynamic Stats | v1.2 | 1/2 | In progress | - |
 | 19. Instagram Feed Integration | v1.2 | 0/? | Not started | - |
 
 ## v1.0 MVP Complete
