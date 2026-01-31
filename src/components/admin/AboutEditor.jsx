@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Save } from 'lucide-react';
 import { fetchAboutContent, updateAboutContent } from '../../services/aboutService';
+import { fetchLocationCount, fetchCountryCount } from '../../services/locationService';
 
 /**
  * AboutEditor - Admin component for editing About page content
@@ -12,16 +13,22 @@ function AboutEditor() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+  const [dbCounts, setDbCounts] = useState({ locations: null, countries: null });
 
   useEffect(() => {
     async function loadContent() {
       setLoading(true);
-      const data = await fetchAboutContent();
+      const [data, locationCount, countryCount] = await Promise.all([
+        fetchAboutContent(),
+        fetchLocationCount(),
+        fetchCountryCount()
+      ]);
       if (data) {
         setContent(data);
       } else {
         setError('Failed to load content');
       }
+      setDbCounts({ locations: locationCount, countries: countryCount });
       setLoading(false);
     }
     loadContent();
@@ -38,7 +45,11 @@ function AboutEditor() {
       bio_paragraph_2: content.bio_paragraph_2,
       bio_paragraph_3: content.bio_paragraph_3,
       youtube_url: content.youtube_url,
-      instagram_url: content.instagram_url
+      instagram_url: content.instagram_url,
+      location_count: content.location_count,
+      video_count: content.video_count,
+      country_count: content.country_count,
+      subscriber_count: content.subscriber_count
     });
 
     if (result.success) {
@@ -171,6 +182,83 @@ function AboutEditor() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
             />
           </div>
+        </div>
+
+        {/* Statistics */}
+        <div>
+          <h3 className="text-lg font-medium text-gray-800 mb-4">Statistics</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Location Count
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={content.location_count ?? ''}
+                onChange={(e) => handleChange('location_count', e.target.value ? parseInt(e.target.value, 10) : null)}
+                placeholder="Enter count or leave blank for dynamic"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              />
+              {dbCounts.locations !== null && (
+                <p className="mt-1 text-sm text-gray-500">
+                  DB shows: {dbCounts.locations} locations
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Country Count
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={content.country_count ?? ''}
+                onChange={(e) => handleChange('country_count', e.target.value ? parseInt(e.target.value, 10) : null)}
+                placeholder="Enter count or leave blank for dynamic"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              />
+              {dbCounts.countries !== null && (
+                <p className="mt-1 text-sm text-gray-500">
+                  DB shows: {dbCounts.countries} countries
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Video Count
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={content.video_count ?? ''}
+                onChange={(e) => handleChange('video_count', e.target.value ? parseInt(e.target.value, 10) : null)}
+                placeholder="Enter count"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Subscriber Count
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={content.subscriber_count ?? ''}
+                onChange={(e) => handleChange('subscriber_count', e.target.value ? parseInt(e.target.value, 10) : null)}
+                placeholder="YouTube subscribers"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              />
+            </div>
+          </div>
+          {content.stats_updated_at && (
+            <p className="mt-3 text-sm text-gray-500">
+              Stats last updated: {new Date(content.stats_updated_at).toLocaleString()}
+            </p>
+          )}
         </div>
       </div>
 
