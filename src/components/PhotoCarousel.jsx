@@ -48,7 +48,7 @@ function PhotoCarousel({ photos }) {
   };
 
   return (
-    <div className="relative w-full h-[500px] bg-gray-900 overflow-hidden rounded-xl shadow-2xl">
+    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] bg-gray-900 overflow-hidden rounded-xl shadow-2xl">
       {/* Images */}
       {photos.map((photo, index) => (
         <div
@@ -61,13 +61,13 @@ function PhotoCarousel({ photos }) {
             className="max-w-full max-h-full object-contain"
           />
 
-          {/* Photo caption */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-8 pt-8 pb-6 text-white">
-            <h3 className="m-0 mb-1 text-2xl font-semibold">
+          {/* Photo caption - positioned above dots with truncation */}
+          <div className="absolute bottom-10 sm:bottom-12 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 sm:px-8 pt-6 sm:pt-8 pb-2 text-white">
+            <h3 className="m-0 mb-0.5 text-base sm:text-xl md:text-2xl font-semibold truncate">
               {photo.title}
             </h3>
             {photo.location && (
-              <p className="m-0 text-base opacity-90">
+              <p className="m-0 text-sm sm:text-base opacity-90 truncate">
                 {photo.location}
               </p>
             )}
@@ -78,26 +78,26 @@ function PhotoCarousel({ photos }) {
       {/* Previous Button */}
       <button
         onClick={goToPrevious}
-        className="absolute left-5 top-1/2 -translate-y-1/2 bg-secondary/80 text-primary border-none rounded-full w-[50px] h-[50px] flex items-center justify-center cursor-pointer z-10 hover:bg-secondary hover:scale-110 transition-all duration-200"
+        className="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 bg-secondary/80 text-primary border-none rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] flex items-center justify-center cursor-pointer z-10 hover:bg-secondary hover:scale-110 transition-all duration-200"
       >
-        <ChevronLeft size={28} />
+        <ChevronLeft className="w-5 h-5 sm:w-7 sm:h-7" />
       </button>
 
       {/* Next Button */}
       <button
         onClick={goToNext}
-        className="absolute right-5 top-1/2 -translate-y-1/2 bg-secondary/80 text-primary border-none rounded-full w-[50px] h-[50px] flex items-center justify-center cursor-pointer z-10 hover:bg-secondary hover:scale-110 transition-all duration-200"
+        className="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 bg-secondary/80 text-primary border-none rounded-full w-10 h-10 sm:w-[50px] sm:h-[50px] flex items-center justify-center cursor-pointer z-10 hover:bg-secondary hover:scale-110 transition-all duration-200"
       >
-        <ChevronRight size={28} />
+        <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
       </button>
 
-      {/* Dot Indicators */}
-      <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2.5 z-10">
+      {/* Dot Indicators - at bottom, below caption */}
+      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2.5 z-10">
         {photos.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`h-3 rounded-md border-none cursor-pointer transition-all duration-300 ${index === currentIndex ? 'w-8 bg-primary' : 'w-3 bg-white/50'}`}
+            className={`h-2 sm:h-3 rounded-md border-none cursor-pointer transition-all duration-300 ${index === currentIndex ? 'w-5 sm:w-8 bg-primary' : 'w-2 sm:w-3 bg-white/50'}`}
             aria-label={`Go to slide ${index + 1}`}
           />
         ))}
