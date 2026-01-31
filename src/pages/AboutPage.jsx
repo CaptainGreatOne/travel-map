@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Youtube, Instagram } from 'lucide-react';
 import { fetchAboutContent } from '../services/aboutService';
+import InstagramFeed from '../components/InstagramFeed';
 
 function AboutPage() {
   const [content, setContent] = useState(null);
@@ -102,6 +103,14 @@ function AboutPage() {
             </a>
           </div>
         </div>
+
+        {/* Instagram Feed Section */}
+        <InstagramFeed
+          widgetType={content?.instagram_widget_type || 'none'}
+          widgetCode={content?.instagram_widget_code || ''}
+          username={content?.instagram_username || ''}
+          profileUrl={content?.instagram_url || 'https://instagram.com'}
+        />
 
         {/* Stats Section */}
         <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
