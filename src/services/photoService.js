@@ -109,6 +109,28 @@ export async function deletePhoto(id, storagePath) {
 }
 
 /**
+ * Update photo metadata (title, location)
+ * @param {string} id - Photo UUID
+ * @param {Object} updates - { title, location }
+ * @returns {Promise<{success: boolean, data?: Object, error?: string}>}
+ */
+export async function updatePhoto(id, updates) {
+  const { data, error } = await supabase
+    .from('photos')
+    .update({ ...updates, updated_at: new Date().toISOString() })
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Error updating photo:', error);
+    return { success: false, error: 'Failed to update photo' };
+  }
+
+  return { success: true, data };
+}
+
+/**
  * Update photo display order
  * @param {string} id - Photo UUID
  * @param {number} newOrder - New display_order value

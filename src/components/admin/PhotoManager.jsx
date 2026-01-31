@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Upload, Trash2, ChevronUp, ChevronDown } from 'lucide-react';
-import { fetchPhotos, uploadPhoto, deletePhoto, reorderPhotos } from '../../services/photoService';
+import { Upload, Trash2, ChevronUp, ChevronDown, Pencil, Check, X } from 'lucide-react';
+import { fetchPhotos, uploadPhoto, updatePhoto, deletePhoto, reorderPhotos } from '../../services/photoService';
 
 /**
  * PhotoManager - Admin component for managing photos on the Photography page
@@ -12,6 +12,8 @@ function PhotoManager() {
   const [error, setError] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({ title: '', location: '' });
 
   useEffect(() => {
     async function loadPhotos() {
@@ -123,6 +125,28 @@ function PhotoManager() {
     }
   }
 
+  function handleStartEdit(photo) {
+    setEditingId(photo.id);
+    setEditForm({ title: photo.title || '', location: photo.location || '' });
+  }
+
+  function handleCancelEdit() {
+    setEditingId(null);
+    setEditForm({ title: '', location: '' });
+  }
+
+  async function handleSaveEdit(photoId) {
+    const result = await updatePhoto(photoId, editForm);
+
+    if (result.success) {
+      setPhotos(prev => prev.map(p => p.id === photoId ? result.data : p));
+      setEditingId(null);
+      setEditForm({ title: '', location: '' });
+    } else {
+      setError(result.error || 'Failed to update photo');
+    }
+  }
+
   if (loading) {
     return <div className="text-center py-8 text-gray-500">Loading photos...</div>;
   }
@@ -175,15 +199,62 @@ function PhotoManager() {
                 className="w-20 h-14 object-cover rounded flex-shrink-0"
               />
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-800 truncate">
-                  {photo.title || 'Untitled'}
-                </p>
-                <p className="text-sm text-gray-500 truncate">
-                  {photo.location || 'No location'}
-                </p>
-              </div>
+              {/* Info / Edit Form */}
+              {editingId === photo.id ? (
+                <div className="flex-1 min-w-0 flex flex-col gap-2">
+                  <input
+                    type="text"
+                    value={editForm.title}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, title: e.target.value }))}
+                    placeholder="Title"
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-primary"
+                  />
+                  <input
+                    type="text"
+                    value={editForm.location}
+                    onChange={(e) => setEditForm(prev => ({ ...prev, location: e.target.value }))}
+                    placeholder="Location"
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:border-primary"
+                  />
+                </div>
+              ) : (
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium text-gray-800 truncate">
+                    {photo.title || 'Untitled'}
+                  </p>
+                  <p className="text-sm text-gray-500 truncate">
+                    {photo.location || 'No location'}
+                  </p>
+                </div>
+              )}
+
+              {/* Edit/Save buttons */}
+              {editingId === photo.id ? (
+                <div className="flex gap-1">
+                  <button
+                    onClick={() => handleSaveEdit(photo.id)}
+                    className="p-2 rounded text-green-600 hover:bg-green-50"
+                    title="Save"
+                  >
+                    <Check size={18} />
+                  </button>
+                  <button
+                    onClick={handleCancelEdit}
+                    className="p-2 rounded text-gray-400 hover:bg-gray-200"
+                    title="Cancel"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => handleStartEdit(photo)}
+                  className="p-2 rounded text-gray-400 hover:text-primary hover:bg-primary/10"
+                  title="Edit title and location"
+                >
+                  <Pencil size={18} />
+                </button>
+              )}
 
               {/* Order indicator */}
               <span className="text-sm text-gray-400 w-8 text-center">
