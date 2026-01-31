@@ -103,11 +103,13 @@ function AboutPage() {
           </div>
         </div>
 
-        {/* Stats Section (Optional - can add later with real data) */}
+        {/* Stats Section */}
         <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
           <div className="text-center p-4 md:p-8 bg-white rounded-xl shadow-md">
             <div className="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">
-              600+
+              {content?.location_count
+                ? content.location_count.toLocaleString() + '+'
+                : '600+'}
             </div>
             <div className="text-base md:text-lg text-gray-600">
               Locations
@@ -116,7 +118,9 @@ function AboutPage() {
 
           <div className="text-center p-4 md:p-8 bg-white rounded-xl shadow-md">
             <div className="text-3xl md:text-5xl font-bold text-green-400 mb-1 md:mb-2">
-              XX
+              {content?.country_count
+                ? content.country_count.toLocaleString()
+                : '--'}
             </div>
             <div className="text-base md:text-lg text-gray-600">
               Countries Visited
@@ -125,7 +129,9 @@ function AboutPage() {
 
           <div className="text-center p-4 md:p-8 bg-white rounded-xl shadow-md">
             <div className="text-3xl md:text-5xl font-bold text-blue-400 mb-1 md:mb-2">
-              XX
+              {content?.video_count
+                ? content.video_count.toLocaleString()
+                : '--'}
             </div>
             <div className="text-base md:text-lg text-gray-600">
               Videos
