@@ -205,8 +205,8 @@ Plans:
 
 Plans:
 - [x] 16-01: Database and storage setup (photos table, photoService)
-- [ ] 16-02: Admin PhotoManager UI (upload, reorder, delete)
-- [ ] 16-03: Photography page integration (fetch from DB, remove sample data)
+- [x] 16-02: Admin PhotoManager UI (upload, reorder, delete)
+- [x] 16-03: Photography page integration (fetch from DB, remove sample data)
 
 #### Phase 17: About Page CMS
 
@@ -264,7 +264,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 13. User Map Search | v1.1 | 1/1 | Complete | 2026-01-29 |
 | 14. Shareable Location URLs | v1.2 | 1/1 | Complete | 2026-01-30 |
 | 15. Enhanced Location Popup | v1.2 | 0/? | Deferred | - |
-| 16. Photography Page CMS | v1.2 | 1/3 | In progress | - |
+| 16. Photography Page CMS | v1.2 | 3/3 | Complete | 2026-01-31 |
 | 17. About Page CMS | v1.2 | 0/? | Not started | - |
 | 18. Dynamic Stats | v1.2 | 0/? | Not started | - |
 | 19. Instagram Feed Integration | v1.2 | 0/? | Not started | - |
