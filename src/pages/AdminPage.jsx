@@ -5,6 +5,7 @@ import SuggestionModerator from '../components/admin/SuggestionModerator';
 import VideoManager from '../components/admin/VideoManager';
 import PhotoManager from '../components/admin/PhotoManager';
 import RemindersViewer from '../components/admin/RemindersViewer';
+import AboutEditor from '../components/admin/AboutEditor';
 
 /**
  * AdminPage - Main admin dashboard with metrics and tab navigation
@@ -41,7 +42,8 @@ function AdminPage() {
     { id: 'suggestions', label: 'Suggestions' },
     { id: 'reminders', label: 'Reminders' },
     { id: 'videos', label: 'Videos' },
-    { id: 'photos', label: 'Photos' }
+    { id: 'photos', label: 'Photos' },
+    { id: 'about', label: 'About' }
   ];
 
   return (
@@ -127,6 +129,9 @@ function AdminPage() {
 
           {/* Photos Tab */}
           {activeTab === 'photos' && <PhotoManager />}
+
+          {/* About Tab */}
+          {activeTab === 'about' && <AboutEditor />}
         </div>
       </div>
     </div>
