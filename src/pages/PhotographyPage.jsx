@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PhotoCarousel from '../components/PhotoCarousel';
-import { featuredPhotos } from '../data/sampleData';
+import { fetchPhotos } from '../services/photoService';
 
 function PhotographyPage() {
+  const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function loadPhotos() {
+      setLoading(true);
+      const data = await fetchPhotos();
+
+      if (data) {
+        setPhotos(data);
+        setError(null);
+      } else {
+        setError('Unable to load photos. Please try again later.');
+      }
+
+      setLoading(false);
+    }
+
+    loadPhotos();
+  }, []);
+
   return (
     <div className="flex-1 overflow-y-auto bg-background">
       {/* Page Header */}
@@ -23,7 +45,22 @@ function PhotographyPage() {
           <h2 className="m-0 mb-4 md:mb-6 text-2xl md:text-3xl text-secondary font-semibold">
             Featured Photos
           </h2>
-          <PhotoCarousel photos={featuredPhotos} />
+
+          {loading ? (
+            <div className="flex items-center justify-center py-16 bg-gray-50 rounded-xl">
+              <p className="text-gray-500">Loading photos...</p>
+            </div>
+          ) : error ? (
+            <div className="flex items-center justify-center py-16 bg-red-50 rounded-xl border border-red-200">
+              <p className="text-red-600">{error}</p>
+            </div>
+          ) : photos.length === 0 ? (
+            <div className="flex items-center justify-center py-16 bg-gray-50 rounded-xl">
+              <p className="text-gray-500">No photos available yet.</p>
+            </div>
+          ) : (
+            <PhotoCarousel photos={photos} />
+          )}
         </div>
 
         {/* Instagram Section */}
