@@ -49,7 +49,10 @@ function AboutEditor() {
       location_count: content.location_count,
       video_count: content.video_count,
       country_count: content.country_count,
-      subscriber_count: content.subscriber_count
+      subscriber_count: content.subscriber_count,
+      instagram_widget_type: content.instagram_widget_type,
+      instagram_widget_code: content.instagram_widget_code,
+      instagram_username: content.instagram_username
     });
 
     if (result.success) {
@@ -181,6 +184,67 @@ function AboutEditor() {
               placeholder="https://instagram.com/yourhandle"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
             />
+          </div>
+        </div>
+
+        {/* Instagram Feed */}
+        <div>
+          <h3 className="text-lg font-medium text-gray-800 mb-4">Instagram Feed</h3>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Widget Type
+              </label>
+              <select
+                value={content.instagram_widget_type || 'none'}
+                onChange={(e) => handleChange('instagram_widget_type', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              >
+                <option value="none">None (link only)</option>
+                <option value="lightwidget">LightWidget (third-party)</option>
+                <option value="official">Official Embed</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Instagram Username
+              </label>
+              <input
+                type="text"
+                value={content.instagram_username || ''}
+                onChange={(e) => handleChange('instagram_username', e.target.value)}
+                placeholder="username (without @)"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+              />
+              <p className="mt-1 text-sm text-gray-500">
+                Used for mobile app deep links
+              </p>
+            </div>
+
+            {content.instagram_widget_type && content.instagram_widget_type !== 'none' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Widget Embed Code
+                </label>
+                <textarea
+                  value={content.instagram_widget_code || ''}
+                  onChange={(e) => handleChange('instagram_widget_code', e.target.value)}
+                  rows={5}
+                  placeholder={
+                    content.instagram_widget_type === 'lightwidget'
+                      ? 'Paste your LightWidget embed code from lightwidget.com'
+                      : 'Paste Instagram embed code'
+                  }
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary resize-y font-mono text-sm"
+                />
+                <p className="mt-1 text-sm text-gray-500">
+                  {content.instagram_widget_type === 'lightwidget'
+                    ? 'Paste your LightWidget embed code from lightwidget.com'
+                    : 'Paste Instagram embed code'}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
