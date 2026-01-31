@@ -138,6 +138,8 @@ None yet.
 
 - **Normalize country data** (low priority): Extract `country`/`country_code` from locations and suggestions into a separate `countries` table with FK relationships. Not urgent given small dataset (~600 records), but would enable country metadata (flags, continents) and single-source-of-truth naming. Consider for a future "database cleanup" phase if needed.
 
+- **Improve photo reordering UX** (low priority): Current up/down arrows work but aren't the most intuitive for bulk reordering. Consider drag-and-drop using `@dnd-kit/core` or `react-beautiful-dnd`. Would make reordering faster and more visual.
+
 ### Blockers/Concerns
 
 None yet.
