@@ -60,20 +60,35 @@ function PhotoCarousel({ photos }) {
             alt={photo.title}
             className="max-w-full max-h-full object-contain"
           />
-
-          {/* Photo caption - positioned above dots with truncation */}
-          <div className="absolute bottom-10 sm:bottom-12 left-0 right-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 sm:px-8 pt-6 sm:pt-8 pb-2 text-white">
-            <h3 className="m-0 mb-0.5 text-base sm:text-xl md:text-2xl font-semibold truncate">
-              {photo.title}
-            </h3>
-            {photo.location && (
-              <p className="m-0 text-sm sm:text-base opacity-90 truncate">
-                {photo.location}
-              </p>
-            )}
-          </div>
         </div>
       ))}
+
+      {/* Bottom overlay with caption and dots */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-4 sm:px-8 pt-6 sm:pt-8 pb-2 sm:pb-3 text-white z-10">
+        {/* Caption */}
+        <div className="mb-3 sm:mb-4">
+          <h3 className="m-0 mb-0.5 text-base sm:text-xl md:text-2xl font-semibold truncate">
+            {photos[currentIndex]?.title}
+          </h3>
+          {photos[currentIndex]?.location && (
+            <p className="m-0 text-sm sm:text-base opacity-90 truncate">
+              {photos[currentIndex].location}
+            </p>
+          )}
+        </div>
+
+        {/* Dot Indicators */}
+        <div className="flex justify-center gap-1.5 sm:gap-2.5">
+          {photos.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`h-2 sm:h-3 rounded-md border-none cursor-pointer transition-all duration-300 ${index === currentIndex ? 'w-5 sm:w-8 bg-primary' : 'w-2 sm:w-3 bg-white/50'}`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Previous Button */}
       <button
@@ -90,18 +105,6 @@ function PhotoCarousel({ photos }) {
       >
         <ChevronRight className="w-5 h-5 sm:w-7 sm:h-7" />
       </button>
-
-      {/* Dot Indicators - at bottom, below caption */}
-      <div className="absolute bottom-2 sm:bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 sm:gap-2.5 z-10">
-        {photos.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`h-2 sm:h-3 rounded-md border-none cursor-pointer transition-all duration-300 ${index === currentIndex ? 'w-5 sm:w-8 bg-primary' : 'w-2 sm:w-3 bg-white/50'}`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
     </div>
   );
 }
