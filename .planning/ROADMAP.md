@@ -240,7 +240,8 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 19-01: TBD
+- [x] 19-01: Instagram widget database schema (widget type, code, username columns)
+- [ ] 19-02: Admin UI and About page widget
 
 ---
 
@@ -269,7 +270,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 16. Photography Page CMS | v1.2 | 3/3 | Complete | 2026-01-31 |
 | 17. About Page CMS | v1.2 | 2/2 | Complete | 2026-01-31 |
 | 18. Dynamic Stats | v1.2 | 2/2 | Complete | 2026-01-31 |
-| 19. Instagram Feed Integration | v1.2 | 0/? | Not started | - |
+| 19. Instagram Feed Integration | v1.2 | 1/2 | In progress | - |
 
 ## v1.0 MVP Complete
 

@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 18 of 19 (Dynamic Stats)
-Plan: 2 of 2 in current phase
-Status: Complete
-Last activity: 2026-01-31 — Completed 18-02-PLAN.md
+Phase: 19 of 19 (Instagram Feed Integration)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-31 — Completed 19-01-PLAN.md
 
-Progress: ██████░░░░ 72% (v1.2)
+Progress: ████████░░ 85% (v1.2)
 
 ## Performance Metrics
 
@@ -133,6 +133,8 @@ Recent decisions affecting current work:
 - Separate paragraph fields (not JSON array) for simple form binding (17-01)
 - DB hints pattern: show current database value as reference when admin overrides (18-02)
 - Nullish coalescing (??) for number input binding to handle null vs 0 distinction (18-02)
+- Three widget types for Instagram: none, lightwidget, official (19-01)
+- No service changes needed for new columns - select('*') pattern auto-includes (19-01)
 
 ### Deferred Issues
 
@@ -161,6 +163,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 18-02-PLAN.md (Phase 18 complete)
+Stopped at: Completed 19-01-PLAN.md
 Resume file: None
-Next action: Execute Phase 19 (Instagram feed integration)
+Next action: Execute 19-02-PLAN.md (Instagram widget admin UI)
