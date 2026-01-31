@@ -158,37 +158,3 @@ export const sampleLocations = [
     notes: "Need at least 2 full days to see everything"
   }
 ];
-
-// Sample featured photos for Photography page
-export const featuredPhotos = [
-  {
-    id: 1,
-    url: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200',
-    title: 'Mountain Sunrise',
-    location: 'Swiss Alps, Switzerland'
-  },
-  {
-    id: 2,
-    url: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=1200',
-    title: 'Forest Path',
-    location: 'Pacific Northwest, USA'
-  },
-  {
-    id: 3,
-    url: 'https://images.unsplash.com/photo-1502082553048-f009c37129b9?w=1200',
-    title: 'Coastal Sunset',
-    location: 'Big Sur, California'
-  },
-  {
-    id: 4,
-    url: 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1200',
-    title: 'Lake Reflection',
-    location: 'Patagonia, Argentina'
-  },
-  {
-    id: 5,
-    url: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?w=1200',
-    title: 'Desert Dunes',
-    location: 'Sahara Desert, Morocco'
-  }
-];
