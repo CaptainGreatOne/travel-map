@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 18 of 19 (Dynamic Stats)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-01-31 — Completed 18-01-PLAN.md
+Plan: 2 of 2 in current phase
+Status: Complete
+Last activity: 2026-01-31 — Completed 18-02-PLAN.md
 
-Progress: █████░░░░░ 67% (v1.2)
+Progress: ██████░░░░ 72% (v1.2)
 
 ## Performance Metrics
 
@@ -131,6 +131,8 @@ Recent decisions affecting current work:
 - Async data fetch in page component with loading/error/empty state pattern (16-03)
 - Single-row table pattern with CHECK (id = 1) constraint for singleton config (17-01)
 - Separate paragraph fields (not JSON array) for simple form binding (17-01)
+- DB hints pattern: show current database value as reference when admin overrides (18-02)
+- Nullish coalescing (??) for number input binding to handle null vs 0 distinction (18-02)
 
 ### Deferred Issues
 
@@ -155,6 +157,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 18-01-PLAN.md
+Stopped at: Completed 18-02-PLAN.md (Phase 18 complete)
 Resume file: None
-Next action: Execute 18-02-PLAN.md (Admin UI & About page integration)
+Next action: Execute Phase 19 (Instagram feed integration)
