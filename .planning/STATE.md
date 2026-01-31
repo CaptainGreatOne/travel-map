@@ -153,9 +153,17 @@ None yet.
 
 - **YouTube API integration testing** (blocked): Revisit Phase 18 YouTube stats integration once the channel has been created and a YouTube Data API key has been obtained. Test: subscriber count fetching, video count from channel, periodic refresh (12-24 hour caching), and fallback behavior when API is unavailable. Currently using manual entry via admin as primary input method.
 
+- **Instagram API integration** (blocked): Implement official Instagram embed using Meta/Facebook Basic Display API or Instagram Graph API. Requires Instagram creator/business account and Meta developer app approval. Currently using third-party LightWidget as alternative.
+
+- **Test API integration responsiveness** (blocked): Once YouTube and Instagram APIs are connected, verify: response times under various network conditions, graceful degradation when APIs are slow/unavailable, proper loading states during API calls, and caching behavior (12-24 hour refresh cycles).
+
+- **Test About page stats updating** (medium priority): Manually verify the admin workflow for updating About page stats (location count, video count, country count, subscriber count). Confirm changes reflect on public About page, fallback values display correctly when fields are null, and number formatting works properly.
+
 ### Blockers/Concerns
 
-None yet.
+- **YouTube API testing blocked**: Cannot test YouTube Data API integration (subscriber count, video count auto-fetch) until YouTube channel is created and API key is obtained from Google Cloud Console.
+
+- **Instagram API testing blocked**: Cannot test official Instagram embed integration until Instagram creator account is set up and Meta developer app is approved. Third-party LightWidget option works without API but official embed requires credentials.
 
 ### Roadmap Evolution
 
