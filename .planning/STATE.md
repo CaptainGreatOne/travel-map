@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 
 ## Current Position
 
-Phase: 16 of 19 (Photography Page CMS)
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-01-31 — Completed 16-03-PLAN.md
+Phase: 17 of 19 (About Page CMS)
+Plan: 1 of 2 in current phase
+Status: In progress
+Last activity: 2026-01-31 — Completed 17-01-PLAN.md
 
-Progress: ███░░░░░░░ 50% (v1.2)
+Progress: ████░░░░░░ 56% (v1.2)
 
 ## Performance Metrics
 
@@ -129,6 +129,8 @@ Recent decisions affecting current work:
 - PhotoManager follows existing admin component patterns (16-02)
 - Move function inside useEffect to satisfy lint rules (16-02)
 - Async data fetch in page component with loading/error/empty state pattern (16-03)
+- Single-row table pattern with CHECK (id = 1) constraint for singleton config (17-01)
+- Separate paragraph fields (not JSON array) for simple form binding (17-01)
 
 ### Deferred Issues
 
@@ -153,6 +155,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 16-03-PLAN.md (Phase 16 complete)
+Stopped at: Completed 17-01-PLAN.md
 Resume file: None
-Next action: Plan Phase 17 (About Page CMS)
+Next action: Execute 17-02-PLAN.md
