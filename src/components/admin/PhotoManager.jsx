@@ -29,24 +29,46 @@ function PhotoManager() {
   }, []);
 
   async function handleUpload(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    // Limit to 7 files
+    const MAX_FILES = 7;
+    if (files.length > MAX_FILES) {
+      setError(`Maximum ${MAX_FILES} photos can be uploaded at once`);
+      e.target.value = '';
+      return;
+    }
+
+    // Validate all files are images
+    const invalidFiles = files.filter(file => !file.type.startsWith('image/'));
+    if (invalidFiles.length > 0) {
+      setError('Please select only image files');
+      e.target.value = '';
       return;
     }
 
     setUploading(true);
     setError(null);
 
-    const result = await uploadPhoto(file);
+    const uploadedPhotos = [];
+    const errors = [];
 
-    if (result.success) {
-      setPhotos(prev => [...prev, result.data]);
-    } else {
-      setError(result.error || 'Failed to upload photo');
+    for (const file of files) {
+      const result = await uploadPhoto(file);
+      if (result.success) {
+        uploadedPhotos.push(result.data);
+      } else {
+        errors.push(file.name);
+      }
+    }
+
+    if (uploadedPhotos.length > 0) {
+      setPhotos(prev => [...prev, ...uploadedPhotos]);
+    }
+
+    if (errors.length > 0) {
+      setError(`Failed to upload: ${errors.join(', ')}`);
     }
 
     setUploading(false);
@@ -111,10 +133,11 @@ function PhotoManager() {
         <h2 className="text-xl font-semibold text-gray-800">Photo Manager</h2>
         <label className={`flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg cursor-pointer hover:bg-primary/90 transition-colors ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
           <Upload size={18} />
-          {uploading ? 'Uploading...' : 'Upload Photo'}
+          {uploading ? 'Uploading...' : 'Upload Photos'}
           <input
             type="file"
             accept="image/*"
+            multiple
             onChange={handleUpload}
             disabled={uploading}
             className="hidden"
