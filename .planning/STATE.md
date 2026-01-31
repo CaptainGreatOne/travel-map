@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-01-29)
 ## Current Position
 
 Phase: 16 of 19 (Photography Page CMS)
-Plan: 1 of 3 in current phase
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-01-30 — Completed 16-01-PLAN.md
+Last activity: 2026-01-31 — Completed 16-02-PLAN.md
 
 Progress: ██░░░░░░░░ 33% (v1.2)
 
@@ -126,6 +126,8 @@ Recent decisions affecting current work:
 - Storage path pattern: photos/{timestamp}-{random}.{ext} for unique filenames (16-01)
 - Delete DB record first, then storage (DB is source of truth) (16-01)
 - Upload cleanup on DB insert failure to prevent orphaned files (16-01)
+- PhotoManager follows existing admin component patterns (16-02)
+- Move function inside useEffect to satisfy lint rules (16-02)
 
 ### Deferred Issues
 
@@ -147,7 +149,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30
-Stopped at: Completed 16-01-PLAN.md (Phase 16 plan 1/3)
+Last session: 2026-01-31
+Stopped at: Completed 16-02-PLAN.md (Phase 16 plan 2/3)
 Resume file: None
-Next action: Execute 16-02-PLAN.md (Admin PhotoManager UI)
+Next action: Execute 16-03-PLAN.md (Photography page frontend display)
