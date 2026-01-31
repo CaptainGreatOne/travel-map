@@ -3,6 +3,7 @@ import { fetchDashboardMetrics } from '../services/adminService';
 import LocationManager from '../components/admin/LocationManager';
 import SuggestionModerator from '../components/admin/SuggestionModerator';
 import VideoManager from '../components/admin/VideoManager';
+import PhotoManager from '../components/admin/PhotoManager';
 import RemindersViewer from '../components/admin/RemindersViewer';
 
 /**
@@ -39,7 +40,8 @@ function AdminPage() {
     { id: 'locations', label: 'Locations' },
     { id: 'suggestions', label: 'Suggestions' },
     { id: 'reminders', label: 'Reminders' },
-    { id: 'videos', label: 'Videos' }
+    { id: 'videos', label: 'Videos' },
+    { id: 'photos', label: 'Photos' }
   ];
 
   return (
@@ -122,6 +124,9 @@ function AdminPage() {
 
           {/* Videos Tab */}
           {activeTab === 'videos' && <VideoManager />}
+
+          {/* Photos Tab */}
+          {activeTab === 'photos' && <PhotoManager />}
         </div>
       </div>
     </div>

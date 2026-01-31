@@ -14,20 +14,19 @@ function PhotoManager() {
   const [confirmDelete, setConfirmDelete] = useState(null);
 
   useEffect(() => {
+    async function loadPhotos() {
+      setLoading(true);
+      setError(null);
+      const data = await fetchPhotos();
+      if (data) {
+        setPhotos(data);
+      } else {
+        setError('Failed to load photos');
+      }
+      setLoading(false);
+    }
     loadPhotos();
   }, []);
-
-  async function loadPhotos() {
-    setLoading(true);
-    setError(null);
-    const data = await fetchPhotos();
-    if (data) {
-      setPhotos(data);
-    } else {
-      setError('Failed to load photos');
-    }
-    setLoading(false);
-  }
 
   async function handleUpload(e) {
     const file = e.target.files?.[0];
