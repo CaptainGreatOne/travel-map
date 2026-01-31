@@ -144,6 +144,10 @@ None yet.
 
 - **Improve photo reordering UX** (low priority): Current up/down arrows work but aren't the most intuitive for bulk reordering. Consider drag-and-drop using `@dnd-kit/core` or `react-beautiful-dnd`. Would make reordering faster and more visual.
 
+- **Photo watermarking system** (medium priority): Add watermarks to photos to deter theft. Options include: canvas-based client-side watermarking on upload, Supabase Edge Function for server-side processing, or external service like Cloudinary. Consider placement (corner vs diagonal), opacity, and whether to watermark originals or generate watermarked versions on-the-fly.
+
+- **YouTube API integration testing** (blocked): Revisit Phase 18 YouTube stats integration once the channel has been created and a YouTube Data API key has been obtained. Test: subscriber count fetching, video count from channel, periodic refresh (12-24 hour caching), and fallback behavior when API is unavailable. Currently using manual entry via admin as primary input method.
+
 ### Blockers/Concerns
 
 None yet.
