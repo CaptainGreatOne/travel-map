@@ -217,7 +217,7 @@ Plans:
 
 Plans:
 - [x] 17-01: Database and service layer (about_content table, aboutService)
-- [ ] 17-02: About page integration (admin UI, public page)
+- [x] 17-02: About page integration (admin UI, public page)
 
 #### Phase 18: Dynamic Stats
 
@@ -266,7 +266,7 @@ Phases execute in numeric order: 1 → 2 → ... → 13
 | 14. Shareable Location URLs | v1.2 | 1/1 | Complete | 2026-01-30 |
 | 15. Enhanced Location Popup | v1.2 | 0/? | Deferred | - |
 | 16. Photography Page CMS | v1.2 | 3/3 | Complete | 2026-01-31 |
-| 17. About Page CMS | v1.2 | 1/2 | In progress | - |
+| 17. About Page CMS | v1.2 | 2/2 | Complete | 2026-01-31 |
 | 18. Dynamic Stats | v1.2 | 0/? | Not started | - |
 | 19. Instagram Feed Integration | v1.2 | 0/? | Not started | - |
 
