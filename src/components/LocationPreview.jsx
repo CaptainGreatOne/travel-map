@@ -9,13 +9,14 @@ import { CheckCircle, AlertTriangle, MapPin, Loader2 } from 'lucide-react';
  * @param {string|null} props.name - Extracted location name
  * @param {number|null} props.lat - Latitude
  * @param {number|null} props.lng - Longitude
+ * @param {string|null} props.country - Full country name (e.g., 'France')
  * @param {string|null} props.countryCode - ISO country code (e.g., 'US', 'JP')
  * @param {boolean} props.loading - Whether URL is being parsed
  * @param {string|null} props.error - Error message to display
  * @param {boolean} props.isShortUrl - Whether URL is a short URL being expanded
  * @param {boolean} props.shortUrlFallback - Whether short URL couldn't be expanded (not an error)
  */
-function LocationPreview({ name, lat, lng, countryCode, loading, error, isShortUrl, shortUrlFallback }) {
+function LocationPreview({ name, lat, lng, country, countryCode, loading, error, isShortUrl, shortUrlFallback }) {
   // Loading state - parsing URL
   if (loading && !isShortUrl) {
     return (
@@ -45,7 +46,7 @@ function LocationPreview({ name, lat, lng, countryCode, loading, error, isShortU
           <span>Short link detected</span>
         </div>
         <div className="mt-1 ml-6 text-blue-600 text-xs">
-          Enter the location name below to submit your suggestion
+          This short link cannot be expanded. Please copy a full Google Maps URL instead.
         </div>
       </div>
     );
@@ -70,9 +71,9 @@ function LocationPreview({ name, lat, lng, countryCode, loading, error, isShortU
         <div className="flex items-center gap-2">
           <CheckCircle size={16} />
           <span className="font-medium">{name}</span>
-          {countryCode && (
+          {(country || countryCode) && (
             <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
-              {countryCode}
+              {country || countryCode}
             </span>
           )}
         </div>
@@ -91,9 +92,9 @@ function LocationPreview({ name, lat, lng, countryCode, loading, error, isShortU
         <div className="flex items-center gap-2">
           <CheckCircle size={16} />
           <span className="font-medium">{name}</span>
-          {countryCode && (
+          {(country || countryCode) && (
             <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-xs font-medium rounded">
-              {countryCode}
+              {country || countryCode}
             </span>
           )}
         </div>
@@ -113,7 +114,7 @@ function LocationPreview({ name, lat, lng, countryCode, loading, error, isShortU
           <span>Coordinates found: {lat.toFixed(4)}, {lng.toFixed(4)}</span>
         </div>
         <div className="mt-1 ml-6 text-amber-600 text-xs">
-          Tip: Enter a location name manually below
+          Location name not found. Please try a different Google Maps URL.
         </div>
       </div>
     );
