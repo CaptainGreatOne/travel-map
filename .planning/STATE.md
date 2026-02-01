@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 20 of 26 (Suggestion Form Simplification)
-Plan: Not started
-Status: Ready to plan Phase 20
-Last activity: 2026-02-01 — v1.3 milestone created
+Plan: 1 of 1 in current phase
+Status: Phase complete
+Last activity: 2026-02-01 — Completed 20-01-PLAN.md
 
-Progress: ░░░░░░░░░░ 0% (v1.3)
+Progress: █░░░░░░░░░ 14% (v1.3)
 
 ## Performance Metrics
 
@@ -138,6 +138,9 @@ Recent decisions affecting current work:
 - dangerouslySetInnerHTML for admin-controlled widget embed code (19-02)
 - Component returns null for feature toggle visibility pattern (19-02)
 - Mobile deep link with 500ms timeout fallback to web URL (19-02)
+- Google Maps URL required for suggestions (no optional mode) (20-01)
+- Location name from URL parsing only (no manual input) (20-01)
+- Validate URL yields extractable location name before submit (20-01)
 
 ### Deferred Issues
 
@@ -175,6 +178,6 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: v1.3 milestone created
+Stopped at: Completed 20-01-PLAN.md (Phase 20 complete)
 Resume file: None
-Next action: Plan and execute Phase 20
+Next action: Plan and execute Phase 21
