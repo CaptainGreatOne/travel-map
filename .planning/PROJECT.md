@@ -16,12 +16,12 @@ A web application that serves as an extension of a YouTube travel vlog channel:
 
 ## Current State
 
-The application is **production-ready** after v1.0 MVP and v1.1 Core Enhancements:
+The application is **production-ready** after v1.0 MVP, v1.1 Core Enhancements, and v1.2 Content & Sharing:
 
 ### Tech Stack
 - React 19.2.3 + Vite 7.2.4
 - Leaflet for mapping with react-leaflet-cluster
-- Supabase for auth and database
+- Supabase for auth, database, and storage
 - React Router for navigation
 - Tailwind CSS for styling
 - Vitest for testing
@@ -29,11 +29,22 @@ The application is **production-ready** after v1.0 MVP and v1.1 Core Enhancement
 ### Architecture
 - Component-based SPA (<150 lines per component)
 - Context API for auth
-- Service layer for Supabase (locationService, suggestionService, adminService)
+- Service layer for Supabase (locationService, suggestionService, adminService, photoService, aboutService)
 - Custom hooks (useMapFilters, useAuth)
 - Error boundaries for graceful failure
+- CMS pattern: admin editor + public page fetching from same service
 
-### v1.1 Shipped Features
+### v1.2 Shipped Features
+| Feature | Status |
+|---------|--------|
+| Shareable location URLs | ✅ Deep linking with copy-to-clipboard |
+| Photography CMS | ✅ Upload, reorder, delete via admin |
+| About Page CMS | ✅ Admin-editable bio, highlights, video |
+| Dynamic stats | ✅ Location/country/video counts from DB |
+| Instagram feed | ✅ Widget integration with mobile deep link |
+| Database-driven content | ✅ Replaced hardcoded sample data |
+
+### v1.1 Features (Previous)
 | Feature | Status |
 |---------|--------|
 | Tailwind CSS architecture | ✅ Replaced 190+ inline styles |
@@ -67,6 +78,10 @@ The application is **production-ready** after v1.0 MVP and v1.1 Core Enhancement
 | 1 | Refactor over rebuild | Architecture is 85-90% aligned with needs; saves 100+ hours | 2026-01-15 |
 | 2 | Keep Supabase | Already integrated, handles auth + database well | 2026-01-15 |
 | 3 | Keep Leaflet | Mapping already works, no reason to change | 2026-01-15 |
+| 4 | useSearchParams for URL state | Bidirectional URL/UI sync pattern for shareable links | 2026-01-30 |
+| 5 | Single-row table for about_content | CHECK (id = 1) constraint for singleton config pattern | 2026-01-31 |
+| 6 | dangerouslySetInnerHTML for widget embed | Safe since content is admin-only, not user-supplied | 2026-01-31 |
+| 7 | Mobile deep link with fallback | 500ms timeout to web URL if app doesn't open | 2026-01-31 |
 
 ## Success Criteria
 
@@ -83,6 +98,11 @@ The application is **production-ready** after v1.0 MVP and v1.1 Core Enhancement
 - [x] Security hardening (XSS, URL validation) — v1.1
 - [x] Map performance for 600+ pins — v1.1
 - [x] User-facing search and country filter — v1.1
+- [x] Shareable location URLs with deep linking — v1.2
+- [x] Admin can manage photography page content — v1.2
+- [x] Admin can edit About page content — v1.2
+- [x] Dynamic stats from database — v1.2
+- [x] Instagram feed integration — v1.2
 
 ## References
 

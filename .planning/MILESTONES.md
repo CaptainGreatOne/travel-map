@@ -1,5 +1,33 @@
 # Project Milestones: Travel Map
 
+## v1.2 Content & Sharing (Shipped: 2026-02-01)
+
+**Delivered:** Admin content management (photos, about page, stats) plus shareable location URLs and Instagram feed integration.
+
+**Phases completed:** 14-19 (10 plans total)
+
+**Key accomplishments:**
+
+- Shareable location URLs with deep linking and copy-to-clipboard
+- Photography Page CMS with Supabase storage (upload, reorder, delete)
+- About Page CMS with admin-editable bio, highlights, and YouTube embed
+- Dynamic stats infrastructure (location/country/video counts from DB)
+- Instagram feed integration with mobile deep link support
+- Database-driven content replaces hardcoded sample data
+
+**Stats:**
+
+- 5 phases, 10 plans
+- 5 days (2026-01-26 → 2026-01-31)
+- 43 files changed, +4,429 lines
+- Builds on v1.1 Core Enhancements foundation
+
+**Git range:** `feat(14-01)` → `feat(19-02)`
+
+**What's next:** v1.3 — TBD (suggestions simplification, deployment prep)
+
+---
+
 ## v1.1 Core Enhancements (Shipped: 2026-01-29)
 
 **Delivered:** Enhanced admin UX with search/sort/filter, country tracking for locations, improved video-location linking, security hardening, and map performance optimization for 600+ pins.

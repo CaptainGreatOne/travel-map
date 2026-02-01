@@ -12,7 +12,7 @@ None (general React/Supabase web application)
 
 - ✅ **v1.0 MVP** - Phases 1-7 (shipped 2026-01-23)
 - ✅ **v1.1 Core Enhancements** - Phases 8-13 (shipped 2026-01-29) — [Archive](milestones/v1.1-ROADMAP.md)
-- 🚧 **v1.2 Content & Sharing** - Phases 14-19 (in progress)
+- ✅ **v1.2 Content & Sharing** - Phases 14-19 (shipped 2026-02-01) — [Archive](milestones/v1.2-ROADMAP.md)
 
 ## Phases
 
@@ -170,78 +170,19 @@ See [v1.1 Archive](milestones/v1.1-ROADMAP.md) for full details.
 
 ---
 
-### 🚧 v1.2 Content & Sharing (In Progress)
+<details>
+<summary>✅ v1.2 Content & Sharing (Phases 14-19) — SHIPPED 2026-02-01</summary>
 
-**Milestone Goal:** Add user-facing content enhancements (location sharing, richer popups) and admin content management (photos, about page, dynamic stats)
+- [x] Phase 14: Shareable Location URLs (1/1 plan) — completed 2026-01-30
+- [ ] Phase 15: Enhanced Location Popup (DEFERRED) — pending Google Cloud API
+- [x] Phase 16: Photography Page CMS (3/3 plans) — completed 2026-01-31
+- [x] Phase 17: About Page CMS (2/2 plans) — completed 2026-01-31
+- [x] Phase 18: Dynamic Stats (2/2 plans) — completed 2026-01-31
+- [x] Phase 19: Instagram Feed Integration (2/2 plans) — completed 2026-01-31
 
-#### Phase 14: Shareable Location URLs
+See [v1.2 Archive](milestones/v1.2-ROADMAP.md) for full details.
 
-**Goal**: Enable direct links to specific locations with auto-open popups
-**Depends on**: Phase 13
-**Research**: Unlikely (React Router URL params, internal patterns)
-**Plans**: 1 plan
-
-Plans:
-- [x] 14-01: URL sync and share button (read/write URL params, share icon in popup)
-
-#### Phase 15: Enhanced Location Popup (DEFERRED)
-
-**Goal**: Add Google Static Maps preview images with graceful fallback
-**Depends on**: Phase 14
-**Research**: Likely (Google Static Maps API)
-**Research topics**: API key setup, usage limits, image sizing, fallback strategies
-**Status**: Deferred pending Google Cloud API setup
-**Plans**: TBD
-
-Plans:
-- [ ] 15-01: TBD
-
-#### Phase 16: Photography Page CMS
-
-**Goal**: Admin can upload photos and manage display order
-**Depends on**: Phase 14 (Phase 15 deferred)
-**Research**: Unlikely (Supabase storage patterns established)
-**Plans**: 3 plans in 2 waves
-
-Plans:
-- [x] 16-01: Database and storage setup (photos table, photoService)
-- [x] 16-02: Admin PhotoManager UI (upload, reorder, delete)
-- [x] 16-03: Photography page integration (fetch from DB, remove sample data)
-
-#### Phase 17: About Page CMS
-
-**Goal**: Admin-editable bio, social links, highlights, and video embed
-**Depends on**: Phase 16
-**Research**: Unlikely (internal CRUD patterns)
-**Plans**: 2 plans
-
-Plans:
-- [x] 17-01: Database and service layer (about_content table, aboutService)
-- [x] 17-02: About page integration (admin UI, public page)
-
-#### Phase 18: Dynamic Stats
-
-**Goal**: Location count from DB, video count from YouTube API with fallback
-**Depends on**: Phase 17
-**Research**: Likely (YouTube Data API)
-**Research topics**: YouTube Data API v3, quota limits, channel statistics endpoint
-**Plans**: TBD
-
-Plans:
-- [x] 18-01: Database & service layer (stats columns, count functions)
-- [ ] 18-02: Admin UI & About page integration
-
-#### Phase 19: Instagram Feed Integration
-
-**Goal**: Dynamic Instagram feed component with profile link
-**Depends on**: Phase 18
-**Research**: Likely (Instagram API)
-**Research topics**: Instagram Basic Display API, Facebook app review, authentication flow, alternatives
-**Plans**: TBD
-
-Plans:
-- [x] 19-01: Instagram widget database schema (widget type, code, username columns)
-- [x] 19-02: Admin UI and About page widget
+</details>
 
 ---
 
@@ -289,3 +230,13 @@ All 6 phases executed successfully on 2026-01-29.
 - 10 plans executed
 - 4 days (2026-01-26 → 2026-01-29)
 - Country tracking, admin UX, security, performance
+
+## v1.2 Content & Sharing Complete
+
+All 5 active phases executed successfully on 2026-02-01 (Phase 15 deferred).
+
+**v1.2 Stats:**
+- 10 plans executed
+- 5 days (2026-01-26 → 2026-01-31)
+- 43 files changed, +4,429 lines
+- Shareable URLs, photography CMS, about CMS, dynamic stats, Instagram feed
