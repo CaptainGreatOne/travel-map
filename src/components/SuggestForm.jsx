@@ -119,8 +119,13 @@ function SuggestForm({ user }) {
   const validateForm = () => {
     const errors = {};
 
-    const nameResult = validateRequired(locationName, 'Location name');
-    if (!nameResult.valid) errors.locationName = nameResult.message;
+    // Google Maps link is now required
+    if (!googleMapsLink) {
+      errors.googleMapsLink = 'Google Maps link is required';
+    } else if (previewData && !previewData.loading && !previewData.name) {
+      // URL provided but no location name could be extracted
+      errors.googleMapsLink = 'Could not extract location from URL. Please use a different Google Maps link.';
+    }
 
     const reasonResult = validateRequired(reason, 'Reason');
     if (!reasonResult.valid) errors.reason = reasonResult.message;
@@ -161,7 +166,7 @@ function SuggestForm({ user }) {
 
       const result = await submitSuggestion(user.id, {
         locationName,
-        googleMapsUrl: googleMapsLink || null,
+        googleMapsUrl: googleMapsLink,
         latitude,
         longitude,
         reason,
@@ -208,17 +213,18 @@ function SuggestForm({ user }) {
           <div className="mb-6 md:mb-8">
             <label className="flex items-center gap-2 mb-2 md:mb-3 text-sm md:text-base text-secondary font-semibold">
               <LinkIcon size={20} />
-              Google Maps Link (Optional)
+              Google Maps Link *
             </label>
             <input
               type="url"
               value={googleMapsLink}
               onChange={handleGoogleMapsLinkChange}
+              required
               placeholder="https://www.google.com/maps/..."
               className="w-full p-3 rounded-lg border border-gray-300 text-base"
             />
             <small className="block mt-2 text-gray-600 text-sm">
-              Paste a Google Maps share link and we'll auto-fill the location name
+              Paste a Google Maps share link to suggest a location
             </small>
             {fieldErrors.googleMapsLink && (
               <p className="mt-1 text-sm text-red-600">{fieldErrors.googleMapsLink}</p>
