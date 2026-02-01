@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Link as LinkIcon } from 'lucide-react';
+import { Link as LinkIcon } from 'lucide-react';
 import { parseGoogleMapsUrlAsync, isValidGoogleMapsUrl } from '../utils/parseGoogleMapsUrl';
 import { validateRequired, getUsernameFromEmail } from '../utils/validation';
 import { submitSuggestion } from '../services/suggestionService';
@@ -74,10 +74,9 @@ function SuggestForm({ user }) {
           shortUrlFallback: false
         });
 
-        // Auto-fill location name if extracted
+        // Set location name from parsed URL (no manual input)
         if (result.name) {
           setLocationName(result.name);
-          setFieldErrors(prev => ({ ...prev, locationName: undefined }));
         }
       } else if (result.isShortUrl) {
         // Short URL couldn't be expanded - show as info, not error
@@ -241,27 +240,6 @@ function SuggestForm({ user }) {
                 isShortUrl={previewData.isShortUrl}
                 shortUrlFallback={previewData.shortUrlFallback}
               />
-            )}
-          </div>
-
-          <div className="mb-6 md:mb-8">
-            <label className="flex items-center gap-2 mb-2 md:mb-3 text-sm md:text-base text-secondary font-semibold">
-              <MapPin size={20} />
-              Location Name *
-            </label>
-            <input
-              type="text"
-              value={locationName}
-              onChange={(e) => {
-                setLocationName(e.target.value);
-                setFieldErrors(prev => ({ ...prev, locationName: undefined }));
-              }}
-              required
-              placeholder="e.g., Santorini, Greece"
-              className="w-full p-2.5 md:p-3 rounded-lg border border-gray-300 text-sm md:text-base"
-            />
-            {fieldErrors.locationName && (
-              <p className="mt-1 text-sm text-red-600">{fieldErrors.locationName}</p>
             )}
           </div>
 
