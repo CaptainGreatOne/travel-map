@@ -152,7 +152,7 @@ function AboutPage() {
         <div className="mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
           <div className="text-center p-4 md:p-8 bg-white rounded-xl shadow-md">
             <div className="text-3xl md:text-5xl font-bold text-primary mb-1 md:mb-2">
-              {content?.location_count
+              {content?.location_count != null
                 ? content.location_count.toLocaleString() + '+'
                 : '600+'}
             </div>
@@ -163,7 +163,7 @@ function AboutPage() {
 
           <div className="text-center p-4 md:p-8 bg-white rounded-xl shadow-md">
             <div className="text-3xl md:text-5xl font-bold text-green-400 mb-1 md:mb-2">
-              {content?.country_count
+              {content?.country_count != null
                 ? content.country_count.toLocaleString()
                 : '--'}
             </div>
@@ -174,7 +174,7 @@ function AboutPage() {
 
           <div className="text-center p-4 md:p-8 bg-white rounded-xl shadow-md">
             <div className="text-3xl md:text-5xl font-bold text-blue-400 mb-1 md:mb-2">
-              {content?.video_count
+              {content?.video_count != null
                 ? content.video_count.toLocaleString()
                 : '--'}
             </div>
