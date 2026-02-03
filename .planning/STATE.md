@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 20 of 26 (Suggestion Form Simplification)
+Phase: 21 of 26 (Social Media & About Improvements)
 Plan: 1 of 1 in current phase
 Status: Phase complete
-Last activity: 2026-02-01 — Completed 20-01-PLAN.md
+Last activity: 2026-02-03 — Completed 21-01-PLAN.md
 
-Progress: █░░░░░░░░░ 14% (v1.3)
+Progress: ██░░░░░░░░ 29% (v1.3)
 
 ## Performance Metrics
 
@@ -141,6 +141,10 @@ Recent decisions affecting current work:
 - Google Maps URL required for suggestions (no optional mode) (20-01)
 - Location name from URL parsing only (no manual input) (20-01)
 - Validate URL yields extractable location name before submit (20-01)
+- URL constructor for robust YouTube URL parsing (21-01)
+- Simplified Instagram widget: 2 options (none/custom) instead of 3 (21-01)
+- JSONB array for flexible social links storage (21-01)
+- Use != null check for numeric zero handling in display (21-01)
 
 ### Deferred Issues
 
@@ -177,7 +181,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-01
-Stopped at: Completed 20-01-PLAN.md (Phase 20 complete)
+Last session: 2026-02-03
+Stopped at: Completed 21-01-PLAN.md (Phase 21 complete)
 Resume file: None
-Next action: Plan and execute Phase 21
+Next action: Plan and execute Phase 22
