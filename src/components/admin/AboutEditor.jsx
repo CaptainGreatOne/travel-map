@@ -264,8 +264,7 @@ function AboutEditor() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
               >
                 <option value="none">None (link only)</option>
-                <option value="lightwidget">LightWidget (third-party)</option>
-                <option value="official">Official Embed</option>
+                <option value="custom">Custom Embed Code</option>
               </select>
             </div>
 
@@ -294,17 +293,11 @@ function AboutEditor() {
                   value={content.instagram_widget_code || ''}
                   onChange={(e) => handleChange('instagram_widget_code', e.target.value)}
                   rows={5}
-                  placeholder={
-                    content.instagram_widget_type === 'lightwidget'
-                      ? 'Paste your LightWidget embed code from lightwidget.com'
-                      : 'Paste Instagram embed code'
-                  }
+                  placeholder="Paste any Instagram embed/widget HTML code"
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary resize-y font-mono text-sm"
                 />
                 <p className="mt-1 text-sm text-gray-500">
-                  {content.instagram_widget_type === 'lightwidget'
-                    ? 'Paste your LightWidget embed code from lightwidget.com'
-                    : 'Paste Instagram embed code'}
+                  Paste any Instagram embed/widget HTML code (e.g., from LightWidget or Instagram official embed)
                 </p>
               </div>
             )}

@@ -5,10 +5,13 @@ import { Instagram, ExternalLink } from 'lucide-react';
  * InstagramFeed - Displays Instagram widget or feed on About page
  *
  * Props:
- * - widgetType: 'none' | 'lightwidget' | 'official'
+ * - widgetType: 'none' | 'custom' (simplified from previous 3 options)
  * - widgetCode: string (the embed HTML)
  * - username: string (for profile deep link)
  * - profileUrl: string (full Instagram URL from instagram_url)
+ *
+ * Note: Any non-'none' widget type will render the embed code.
+ * Legacy values (lightwidget, official) are treated the same as 'custom'.
  */
 function InstagramFeed({ widgetType, widgetCode, username, profileUrl }) {
   // Don't render anything if widget type is 'none'
