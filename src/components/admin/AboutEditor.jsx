@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Save } from 'lucide-react';
+import { Save, Plus, Trash2 } from 'lucide-react';
 import { fetchAboutContent, updateAboutContent } from '../../services/aboutService';
 import { fetchLocationCount, fetchCountryCount } from '../../services/locationService';
 
@@ -102,7 +102,8 @@ function AboutEditor() {
       subscriber_count: content.subscriber_count,
       instagram_widget_type: content.instagram_widget_type,
       instagram_widget_code: content.instagram_widget_code,
-      instagram_username: content.instagram_username
+      instagram_username: content.instagram_username,
+      social_links: content.social_links || []
     });
 
     if (result.success) {
@@ -126,6 +127,39 @@ function AboutEditor() {
     // Store the extracted ID, not the full URL
     setContent(prev => ({ ...prev, youtube_video_id: extracted }));
   }
+
+  // Social links management
+  function addSocialLink() {
+    const newLink = { platform: 'tiktok', url: '', label: '' };
+    setContent(prev => ({
+      ...prev,
+      social_links: [...(prev.social_links || []), newLink]
+    }));
+  }
+
+  function removeSocialLink(index) {
+    setContent(prev => ({
+      ...prev,
+      social_links: (prev.social_links || []).filter((_, i) => i !== index)
+    }));
+  }
+
+  function updateSocialLink(index, field, value) {
+    setContent(prev => ({
+      ...prev,
+      social_links: (prev.social_links || []).map((link, i) =>
+        i === index ? { ...link, [field]: value } : link
+      )
+    }));
+  }
+
+  const socialPlatformOptions = [
+    { value: 'tiktok', label: 'TikTok' },
+    { value: 'twitter', label: 'Twitter/X' },
+    { value: 'facebook', label: 'Facebook' },
+    { value: 'website', label: 'Website' },
+    { value: 'other', label: 'Other' }
+  ];
 
   if (loading) {
     return <div className="text-center py-8 text-gray-500">Loading content...</div>;
@@ -248,6 +282,77 @@ function AboutEditor() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
             />
           </div>
+        </div>
+
+        {/* Additional Social Links */}
+        <div>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-medium text-gray-800">Additional Social Links</h3>
+            <button
+              type="button"
+              onClick={addSocialLink}
+              className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              <Plus size={16} />
+              Add Link
+            </button>
+          </div>
+          <p className="text-sm text-gray-500 mb-4">
+            Add links to other social platforms like TikTok, Twitter/X, Facebook, etc.
+          </p>
+
+          {(content.social_links || []).length === 0 ? (
+            <p className="text-sm text-gray-400 italic">No additional social links added yet.</p>
+          ) : (
+            <div className="space-y-4">
+              {(content.social_links || []).map((link, index) => (
+                <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                  <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Platform</label>
+                      <select
+                        value={link.platform || 'other'}
+                        onChange={(e) => updateSocialLink(index, 'platform', e.target.value)}
+                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                      >
+                        {socialPlatformOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">URL</label>
+                      <input
+                        type="url"
+                        value={link.url || ''}
+                        onChange={(e) => updateSocialLink(index, 'url', e.target.value)}
+                        placeholder="https://..."
+                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1">Custom Label (optional)</label>
+                      <input
+                        type="text"
+                        value={link.label || ''}
+                        onChange={(e) => updateSocialLink(index, 'label', e.target.value)}
+                        placeholder={socialPlatformOptions.find(o => o.value === link.platform)?.label || 'Label'}
+                        className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removeSocialLink(index)}
+                    className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Remove link"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Instagram Feed */}

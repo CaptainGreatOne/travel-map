@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Youtube, Instagram } from 'lucide-react';
+import { Youtube, Instagram, Music2, Twitter, Facebook, Globe, Link } from 'lucide-react';
 import { fetchAboutContent } from '../services/aboutService';
 import InstagramFeed from '../components/InstagramFeed';
+
+/**
+ * Get icon component for a social platform
+ */
+function getSocialIcon(platform) {
+  switch (platform) {
+    case 'tiktok':
+      return Music2;
+    case 'twitter':
+      return Twitter;
+    case 'facebook':
+      return Facebook;
+    case 'website':
+      return Globe;
+    default:
+      return Link;
+  }
+}
 
 function AboutPage() {
   const [content, setContent] = useState(null);
@@ -79,7 +97,7 @@ function AboutPage() {
             Connect With Me
           </h2>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 md:gap-8">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 md:gap-8">
             {/* YouTube Link */}
             <a
               href={content?.youtube_url || 'https://youtube.com/@yourchannel'}
@@ -101,6 +119,24 @@ function AboutPage() {
               <Instagram size={24} />
               Instagram
             </a>
+
+            {/* Additional Social Links */}
+            {(content?.social_links || []).map((link, index) => {
+              const Icon = getSocialIcon(link.platform);
+              const label = link.label || link.platform?.charAt(0).toUpperCase() + link.platform?.slice(1) || 'Link';
+              return (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 px-4 md:px-6 py-3 md:py-4 bg-slate-600 text-white no-underline rounded-lg text-base md:text-lg font-semibold shadow-lg shadow-slate-600/30 hover:shadow-xl hover:shadow-slate-600/40 hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <Icon size={24} />
+                  {label}
+                </a>
+              );
+            })}
           </div>
         </div>
 
