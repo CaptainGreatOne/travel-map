@@ -4,6 +4,51 @@ import { fetchAboutContent, updateAboutContent } from '../../services/aboutServi
 import { fetchLocationCount, fetchCountryCount } from '../../services/locationService';
 
 /**
+ * Extract YouTube video ID from various URL formats or return as-is if already an ID
+ * Supports:
+ * - youtube.com/watch?v=ID
+ * - youtu.be/ID
+ * - youtube.com/embed/ID
+ * - Just the ID (11 character alphanumeric string)
+ */
+function extractYouTubeVideoId(input) {
+  if (!input) return '';
+
+  const trimmed = input.trim();
+
+  // If it looks like a URL, try to extract the video ID
+  if (trimmed.includes('youtube.com') || trimmed.includes('youtu.be')) {
+    try {
+      const url = new URL(trimmed);
+
+      // Handle youtube.com/watch?v=ID
+      if (url.hostname.includes('youtube.com') && url.pathname === '/watch') {
+        const videoId = url.searchParams.get('v');
+        if (videoId) return videoId;
+      }
+
+      // Handle youtube.com/embed/ID
+      if (url.hostname.includes('youtube.com') && url.pathname.startsWith('/embed/')) {
+        const videoId = url.pathname.replace('/embed/', '').split('/')[0];
+        if (videoId) return videoId;
+      }
+
+      // Handle youtu.be/ID
+      if (url.hostname === 'youtu.be') {
+        const videoId = url.pathname.slice(1).split('/')[0];
+        if (videoId) return videoId;
+      }
+    } catch {
+      // URL parsing failed, return as-is
+      return trimmed;
+    }
+  }
+
+  // Not a URL or extraction failed, return as-is (assume it's already an ID)
+  return trimmed;
+}
+
+/**
  * AboutEditor - Admin component for editing About page content
  * Provides form for editing bio, video, and social links
  */
@@ -14,6 +59,8 @@ function AboutEditor() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
   const [dbCounts, setDbCounts] = useState({ locations: null, countries: null });
+  const [youtubeInput, setYoutubeInput] = useState('');
+  const [extractedVideoId, setExtractedVideoId] = useState('');
 
   useEffect(() => {
     async function loadContent() {
@@ -25,6 +72,9 @@ function AboutEditor() {
       ]);
       if (data) {
         setContent(data);
+        // Initialize youtube input with the stored video ID
+        setYoutubeInput(data.youtube_video_id || '');
+        setExtractedVideoId(data.youtube_video_id || '');
       } else {
         setError('Failed to load content');
       }
@@ -69,6 +119,14 @@ function AboutEditor() {
     setContent(prev => ({ ...prev, [field]: value }));
   }
 
+  function handleYoutubeInputChange(value) {
+    setYoutubeInput(value);
+    const extracted = extractYouTubeVideoId(value);
+    setExtractedVideoId(extracted);
+    // Store the extracted ID, not the full URL
+    setContent(prev => ({ ...prev, youtube_video_id: extracted }));
+  }
+
   if (loading) {
     return <div className="text-center py-8 text-gray-500">Loading content...</div>;
   }
@@ -104,21 +162,26 @@ function AboutEditor() {
       )}
 
       <div className="space-y-6">
-        {/* YouTube Video ID */}
+        {/* YouTube Video URL or ID */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            YouTube Video ID
+            YouTube Video URL or ID
           </label>
           <input
             type="text"
-            value={content.youtube_video_id || ''}
-            onChange={(e) => handleChange('youtube_video_id', e.target.value)}
-            placeholder="e.g., dQw4w9WgXcQ"
+            value={youtubeInput}
+            onChange={(e) => handleYoutubeInputChange(e.target.value)}
+            placeholder="e.g., https://youtube.com/watch?v=dQw4w9WgXcQ or dQw4w9WgXcQ"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary"
           />
           <p className="mt-1 text-sm text-gray-500">
-            The ID from the YouTube URL (e.g., youtube.com/watch?v=<strong>dQw4w9WgXcQ</strong>)
+            Paste a full YouTube URL or just the video ID. Supported formats: youtube.com/watch?v=ID, youtu.be/ID, youtube.com/embed/ID, or just the ID.
           </p>
+          {youtubeInput && youtubeInput !== extractedVideoId && extractedVideoId && (
+            <p className="mt-1 text-sm text-green-600">
+              Extracted video ID: <strong>{extractedVideoId}</strong>
+            </p>
+          )}
         </div>
 
         {/* Bio Paragraphs */}
