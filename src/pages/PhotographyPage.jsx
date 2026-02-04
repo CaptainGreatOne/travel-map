@@ -72,7 +72,7 @@ function PhotographyPage() {
             See more photos and daily updates on Instagram
           </p>
           <a
-            href="https://instagram.com/capt_gr8_1"
+            href="https://instagram.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-pink-600 text-white no-underline rounded-lg text-base md:text-lg font-semibold shadow-lg shadow-pink-600/30 hover:shadow-xl hover:shadow-pink-600/40 hover:-translate-y-0.5 transition-all duration-200"
