@@ -1,23 +1,144 @@
-# React + Vite
+# Travel Map
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interactive companion app for a travel vlog YouTube channel. Explore 600+ location markers on an interactive map, discover videos, and submit your own location suggestions.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Interactive Leaflet Map** - Browse 600+ location markers with clustering for better performance
+- **Category & Status Filtering** - Filter by location type (nature, city, food, etc.) and visited status
+- **Location Suggestions** - Authenticated users can suggest new locations via Google Maps URL
+- **Photography Gallery** - Browse travel photos with admin CMS for management
+- **About Page** - Dynamic stats, bio content, and Instagram feed integration
+- **Admin Panel** - Full content management for locations, videos, suggestions, and photos
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend:** React 19 + Vite
+- **Styling:** Tailwind CSS
+- **Mapping:** Leaflet + react-leaflet + react-leaflet-cluster
+- **Backend:** Supabase (Auth, Database, Storage)
+- **Testing:** Vitest + React Testing Library
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Node.js 18+
+- npm or pnpm
+- Supabase account (free tier works)
 
+## Installation
 
-## Notes for developer
-location for icons on site: https://lucide.dev/icons/
-location for different map views ## note some require API keys, ie moneys: https://leaflet-extras.github.io/leaflet-providers/preview/ 
+```bash
+# Clone the repository
+git clone <repo-url>
+cd trave-map
 
-nonprod db psswrd: test password 12345
+# Install dependencies
+npm install
+
+# Copy environment template
+cp .env.example .env.local
+
+# Edit .env.local with your Supabase credentials
+# See docs/ENVIRONMENT.md for detailed setup instructions
+
+# Start development server
+npm run dev
+```
+
+## Environment Variables
+
+See [docs/ENVIRONMENT.md](docs/ENVIRONMENT.md) for detailed environment variable documentation.
+
+**Required variables:**
+- `VITE_SUPABASE_URL` - Your Supabase project URL
+- `VITE_SUPABASE_ANON_KEY` - Your Supabase anon/public key
+- `VITE_ADMIN_EMAILS` - Comma-separated list of admin email addresses
+
+## Database Setup
+
+### Fresh Deployment
+
+For new projects, run the consolidated schema file in Supabase SQL Editor:
+
+```bash
+# File: supabase/seed.sql
+# Contains all tables, policies, and initial data
+```
+
+1. Go to your Supabase project dashboard
+2. Navigate to SQL Editor
+3. Copy and paste contents of `supabase/seed.sql`
+4. Run the query
+
+### Incremental Updates
+
+Individual migration files are in `supabase/migrations/` for reference and incremental updates to existing databases.
+
+## Development Commands
+
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run linter
+npm run lint
+
+# Run tests
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+## Project Structure
+
+```
+src/
+├── App.jsx           # Main app with routing
+├── main.jsx          # Entry point
+├── index.css         # Global styles (Tailwind)
+├── components/       # React components
+│   ├── admin/        # Admin panel components
+│   ├── map/          # Map-related components
+│   ├── layout/       # Layout components (Header, Sidebar)
+│   └── ui/           # Reusable UI components
+├── pages/            # Page components (About, Photography, Admin)
+├── contexts/         # React contexts (Auth)
+├── hooks/            # Custom React hooks
+├── services/         # Supabase service layer
+├── utils/            # Utility functions
+├── data/             # Static data (sample locations, categories)
+└── test/             # Test setup and utilities
+```
+
+## Admin Access
+
+Users whose email is in `VITE_ADMIN_EMAILS` will see an Admin menu item in the navigation. Admin features include:
+
+- **Location Management** - Add, edit, delete locations
+- **Video Management** - Link YouTube videos to locations
+- **Suggestion Moderation** - Review and approve/reject user suggestions
+- **Photo Management** - Upload and manage photography gallery
+- **About Page Editor** - Update bio, social links, and stats
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+MIT License - see LICENSE file for details.
+
+---
+
+Built with React, Leaflet, and Supabase.
