@@ -32,7 +32,7 @@ function MapLegend({ colorScheme, categories, visitedCount, wantToVisitCount }) 
         >
           <div
             className="w-3.5 h-3.5 rounded-full"
-            style={{ backgroundColor: category.colorHex }}
+            style={{ backgroundColor: category.color_hex }}
           ></div>
           <span className="text-sm mr-1">
             {category.icon}
