@@ -1,0 +1,22 @@
+# Docker Compose configuration for Travel Map application
+#
+# Note: Environment variables (VITE_*) are baked in at build time for Vite apps.
+# To use custom environment variables:
+# 1. Create a .env file with your VITE_* variables
+# 2. Build with: docker compose build --no-cache
+# 3. Run with: docker compose up
+#
+# The build process will read .env automatically during the build stage.
+
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
