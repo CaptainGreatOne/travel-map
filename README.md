@@ -11,6 +11,20 @@ Interactive companion app for a travel vlog YouTube channel. Explore 600+ locati
 - **About Page** - Dynamic stats, bio content, and Instagram feed integration
 - **Admin Panel** - Full content management for locations, videos, suggestions, and photos
 
+## Screenshots
+
+![Map View](docs/images/map-view.png)
+*Interactive map with 600+ location markers and filtering*
+
+![Photography Gallery](docs/images/photography.png)
+*Travel photography gallery*
+
+![About Page](docs/images/about.png)
+*About page with dynamic stats and social links*
+
+![Admin Panel](docs/images/admin.png)
+*Admin panel for content management*
+
 ## Tech Stack
 
 - **Frontend:** React 19 + Vite
