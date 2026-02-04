@@ -13,7 +13,7 @@ None (general React/Supabase web application)
 - ✅ **v1.0 MVP** - Phases 1-7 (shipped 2026-01-23)
 - ✅ **v1.1 Core Enhancements** - Phases 8-13 (shipped 2026-01-29) — [Archive](milestones/v1.1-ROADMAP.md)
 - ✅ **v1.2 Content & Sharing** - Phases 14-19 (shipped 2026-02-01) — [Archive](milestones/v1.2-ROADMAP.md)
-- 🚧 **v1.3 Production Ready** - Phases 20-26 (in progress)
+- 🚧 **v1.3 Production Ready** - Phases 20-22 (in progress)
 
 ## Phases
 
@@ -189,7 +189,7 @@ See [v1.2 Archive](milestones/v1.2-ROADMAP.md) for full details.
 
 ### 🚧 v1.3 Production Ready (In Progress)
 
-**Milestone Goal:** Simplify suggestion flow, enhance admin capabilities, add full site customization, prepare for production deployment
+**Milestone Goal:** Simplify suggestion flow, enhance admin capabilities, prepare for production deployment
 
 #### Phase 20: Suggestion Form Simplification
 
@@ -218,64 +218,10 @@ Key work:
 - Dynamic social media buttons: list of platforms, admin fills URLs, auto-generates buttons
 - Fix dynamic location count bug
 
-#### Phase 22: Website Customization CMS
-
-**Goal**: Full admin control over site branding, colors, and headers
-**Depends on**: Phase 21
-**Research**: Unlikely (CSS variables, internal patterns)
-**Plans**: TBD
-
-Key work:
-- Admin can set color combinations (primary, secondary, accent)
-- Admin can edit website header and subheader
-- Admin can edit page headers
-- Changes apply site-wide via CSS variables or Tailwind config
-
-#### Phase 23: Menu & UX Polish
-
-**Goal**: Reorganize navigation, address remaining TODOs
-**Depends on**: Phase 22
-**Research**: None
-**Plans**: TBD
-
-Key work:
-- Move "Suggest Location" menu item immediately below "Map View"
-- Fix TODO: MapPage.jsx:61 location loading failure handling
-- Any other minor UX improvements
-
-#### Phase 24: Mass Location Import
-
-**Goal**: Allow admin to bulk import locations
-**Depends on**: Phase 23
-**Research**: Likely (Google Maps export limitations)
-**Research topics**: Google Maps list export options, KML/JSON parsing, Google My Maps integration
-**Plans**: TBD
-
-Key work:
-- Research Google Maps export capabilities
-- Support JSON/KML/XML file upload
-- File validation and parsing
-- Preview list before import with edit capability
-- Batch insert to database
-
-#### Phase 25: Location Popup Enhancement
-
-**Goal**: Fetch location info/images from Google Maps API with graceful fallback
-**Depends on**: Phase 24
-**Research**: Likely (Google Places API)
-**Research topics**: Places API setup, usage limits, photo references, fallback strategies
-**Plans**: TBD
-
-Key work:
-- Google Places API integration
-- Fetch place details (photos, description, rating)
-- Display in popup with current content as fallback
-- Handle API failures gracefully
-
-#### Phase 26: Deployment Preparation
+#### Phase 22: Deployment Preparation
 
 **Goal**: Prepare application for production deployment
-**Depends on**: Phase 25
+**Depends on**: Phase 21
 **Research**: Unlikely (standard deployment patterns)
 **Plans**: TBD
 
@@ -292,7 +238,7 @@ Key work:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → ... → 26
+Phases execute in numeric order: 1 → 2 → ... → 22
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -317,11 +263,7 @@ Phases execute in numeric order: 1 → 2 → ... → 26
 | 19. Instagram Feed Integration | v1.2 | 2/2 | Complete | 2026-01-31 |
 | 20. Suggestion Form Simplification | v1.3 | 1/1 | Complete | 2026-02-01 |
 | 21. Social Media & About Improvements | v1.3 | 1/1 | Complete | 2026-02-03 |
-| 22. Website Customization CMS | v1.3 | 0/? | Not started | - |
-| 23. Menu & UX Polish | v1.3 | 0/? | Not started | - |
-| 24. Mass Location Import | v1.3 | 0/? | Not started | - |
-| 25. Location Popup Enhancement | v1.3 | 0/? | Not started | - |
-| 26. Deployment Preparation | v1.3 | 0/? | Not started | - |
+| 22. Deployment Preparation | v1.3 | 0/? | Not started | - |
 
 ## v1.0 MVP Complete
 
