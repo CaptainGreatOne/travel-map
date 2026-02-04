@@ -1,0 +1,16 @@
+node_modules
+dist
+.git
+.gitignore
+.env.local
+.env
+*.md
+!README.md
+.planning
+.claude
+.vscode
+*.log
+.DS_Store
+Thumbs.db
+coverage
+.nyc_output
