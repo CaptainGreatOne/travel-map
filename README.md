@@ -13,17 +13,21 @@ Interactive companion app for a travel vlog YouTube channel. Explore 600+ locati
 
 ## Screenshots
 
-![Map View](docs/images/map-view.png)
 *Interactive map with 600+ location markers and filtering*
+![Map View](docs/images/map-view.png)
 
-![Photography Gallery](docs/images/photography.png)
+
 *Travel photography gallery*
+![Photography Gallery](docs/images/photography.png)
 
-![About Page](docs/images/about.png)
+
 *About page with dynamic stats and social links*
+![About Page](docs/images/about.png)
 
-![Admin Panel](docs/images/admin.png)
+
 *Admin panel for content management*
+![Admin Panel](docs/images/admin.png)
+
 
 ## Tech Stack
 
